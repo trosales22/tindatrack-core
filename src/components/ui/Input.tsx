@@ -21,7 +21,7 @@ const Input: FC<InputFieldProps> = ({
     <div className="form-control w-full">
       {label && (
         <label htmlFor={props.id} className="label px-1">
-          <span className="label-text text-sm font-medium">{label}</span>
+          <span className="label-text text-sm font-medium text-black">{label}</span>
         </label>
       )}
 

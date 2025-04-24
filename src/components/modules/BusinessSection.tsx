@@ -7,8 +7,12 @@ import { debounce } from "lodash";
 import { useListBusinessQuery } from "hooks/business";
 import { Business } from "types/business";
 import Pagination from "components/ui/Pagination";
+import Modal from "components/ui/Modal";
+import { useModalStore } from "stores/useModalStore";
+import AddBusinessForm from "./business/forms/AddBusinessForm";
 
 const BusinessSection: React.FC = () => {
+  const { openCreateBusiness, setOpenCreateBusiness } = useModalStore()
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
@@ -41,7 +45,7 @@ const BusinessSection: React.FC = () => {
           <Button
             variant="primary"
             className="px-4 py-2 whitespace-nowrap"
-            onClick={() => navigate("/businesses/new")}
+            onClick={() => setOpenCreateBusiness(true)}
           >
             + Add Business
           </Button>
@@ -101,6 +105,21 @@ const BusinessSection: React.FC = () => {
           />
         )}
       </div>
+
+      <Modal
+        id="add-business-modal"
+        title="Add Business"
+        closeButton
+        closeOnBackdrop
+        isOpen={openCreateBusiness}
+        size="sm"
+        onClose={() => setOpenCreateBusiness(false)}
+        headerColor="blue"
+      >
+        {openCreateBusiness && (
+          <AddBusinessForm onClose={() => setOpenCreateBusiness(false)} />
+        )}
+      </Modal>
     </>
   );
 };

@@ -8,23 +8,15 @@ import {
 } from "lucide-react";
 import { Tabs } from "components/ui/components";
 import LayoutWithFooter from "components/LayoutWithFooter";
+import { useShowBusinessByIdQuery } from "hooks/business";
 
 const BusinessDetailPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>()
+    const { data: response }: any = useShowBusinessByIdQuery({
+      businessId: id
+    })
 
-    const business = {
-        id,
-        name: "Sari-Sari Store",
-        type: "Retail",
-        owner: "Juan Dela Cruz",
-        status: "Active",
-        createdAt: "2024-05-01",
-        salesToday: 1250,
-        totalInventoryItems: 38,
-        totalInvestments: 5000,
-        profitLossThisMonth: 950,
-    };
-
+    const businessDetail = response?.data?.data?.attributes || null
     const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
     const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
     const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
@@ -85,11 +77,11 @@ const BusinessDetailPage: React.FC = () => {
                 </div>
                 <div className="text-center sm:text-left flex flex-col sm:flex-row sm:justify-between w-full items-center sm:items-start">
                     <div>
-                    <h1 className="text-2xl font-bold">{business.name}</h1>
-                    <p className="text-sm text-neutral-content mt-1">Type: {business.type}</p>
-                    <p className="text-sm text-neutral-content">Owner: {business.owner}</p>
-                    <p className="text-sm text-neutral-content">Status: {business.status}</p>
-                    <p className="text-sm text-neutral-content">Started on: {business.createdAt}</p>
+                    <h1 className="text-2xl font-bold">{businessDetail?.name}</h1>
+                    <p className="text-sm text-gray-800 mt-1">Type: {businessDetail?.type?.label}</p>
+                    <p className="text-sm text-gray-800">Owner: {`${businessDetail?.owner?.firstname} ${businessDetail?.owner?.lastname}`}</p>
+                    <p className="text-sm text-gray-800">Status: {businessDetail?.status?.label}</p>
+                    <p className="text-sm text-gray-800">Created on: {businessDetail?.created_at}</p>
                     </div>
                 </div>
 
