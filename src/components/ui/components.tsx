@@ -10,6 +10,7 @@ import Modal from "./Modal"
 import Table from "./Table"
 import Pagination from "./Pagination"
 import Tabs from "./Tabs"
+import FileInput from "./FileInput"
 
 export {
     Dock,
@@ -21,5 +22,6 @@ export {
     Modal,
     Table,
     Pagination,
-    Tabs
+    Tabs,
+    FileInput
 }
