@@ -9,7 +9,7 @@ type MyProfileParams = {
 export const useLoginMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
   return useMutation({
     mutationKey: ['LOGIN'],
-    mutationFn: (payload: any) => fns.login(payload),
+    mutationFn: (payload) => fns.login(payload),
     ...mutationOptions
   });
 };
@@ -42,6 +42,14 @@ export const useChangePasswordMutation = (mutationOptions?: UseMutationOptions<A
   return useMutation({
     mutationKey: ['CHANGE_PASSWORD'],
     mutationFn: (payload) => fns.changePassword(payload),
+    ...mutationOptions
+  });
+};
+
+export const useRegisterBusinessAdminMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+  return useMutation({
+    mutationKey: ['REGISTER_BUSINESS_ADMIN'],
+    mutationFn: (payload) => fns.registerBusinessAdmin(payload),
     ...mutationOptions
   });
 };

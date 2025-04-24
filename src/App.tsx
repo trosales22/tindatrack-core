@@ -9,12 +9,14 @@ import NotFound from "components/NotFound";
 import BusinessDetailPage from "pages/BusinessDetail";
 import ProtectedRoute from "components/ProtectedRoute";
 import { ROLES } from "constants/roles";
+import RegisterPage from "pages/Register";
 
 function App() {
   return (
     <Wrapper>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<ProtectedRoute allowedRoles={[ROLES.BUSINESS_ADMIN]} />}>
           <Route path="/" element={<Homepage />} />

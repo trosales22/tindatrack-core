@@ -1,9 +1,5 @@
 import axios from 'axios';
-
-interface LoginPayload {
-    user_id: string;
-    password: string;
-}
+import { LoginPayload, RegisterBusinessAdminPayload } from 'types/auth';
 
 interface UpdateMyProfilePayload {
     username?: string;
@@ -26,3 +22,5 @@ export const myProfile = () => axios.get('/api/v1/core/my_profile');
 export const updateMyProfile = (payload: UpdateMyProfilePayload) => axios.put('/api/v1/core/my_profile', payload);
 
 export const changePassword = (payload: ChangePaswordPayload) => axios.put('/api/v1/core/change_password', payload);
+
+export const registerBusinessAdmin = (payload: RegisterBusinessAdminPayload) => axios.post('/api/v1/core/business_admin/register', payload);
