@@ -5,6 +5,7 @@ import LoginPage from "pages/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Homepage from "pages/Home";
+import NotFound from "components/NotFound";
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Homepage />} />
-      </Routes>
 
+        <Route path="*" element={<NotFound />} />
+      </Routes>
       <ToastContainer />
     </Wrapper>
   )
