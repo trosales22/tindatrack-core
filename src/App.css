@@ -1,0 +1,18 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: pastel, cupcake, corporate, winter;
+}
+
+/* Apply smooth scroll only on mobile devices */
+@media (max-width: 768px) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Regular scroll behavior for desktop */
+@media (min-width: 769px) {
+    html {
+        scroll-behavior: auto;
+    }
+}
