@@ -6,8 +6,8 @@ import {
   Edit,
   Trash2,
 } from "lucide-react";
-import Layout from "components/Layout";
 import { Tabs } from "components/ui/components";
+import LayoutWithFooter from "components/LayoutWithFooter";
 
 const BusinessDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -73,10 +73,10 @@ const BusinessDetailPage: React.FC = () => {
     ];
 
     return (
-        <Layout>
+        <LayoutWithFooter>
             <div className="container px-3 sm:px-6 mx-auto">
                 <Link to="/" className="text-sm text-primary flex items-center gap-1 mb-4 hover:underline">
-                <ArrowLeft className="w-4 h-4" /> Back to Businesses
+                    <ArrowLeft className="w-4 h-4" /> Back to Businesses
                 </Link>
 
                 <div className="bg-white dark:bg-base-200 shadow-md rounded-2xl p-4 flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6">
@@ -109,7 +109,7 @@ const BusinessDetailPage: React.FC = () => {
                     <Tabs tabs={tabData} defaultIndex={0} withBorder={true} />
                 </div>
             </div>
-        </Layout>
+        </LayoutWithFooter>
     );
 };
 
