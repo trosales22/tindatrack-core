@@ -7,15 +7,20 @@ import "react-toastify/dist/ReactToastify.css";
 import Homepage from "pages/Home";
 import NotFound from "components/NotFound";
 import BusinessDetailPage from "pages/BusinessDetail";
+import ProtectedRoute from "components/ProtectedRoute";
+import { ROLES } from "constants/roles";
 
 function App() {
   return (
     <Wrapper>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<Homepage />} />
-        <Route path="/businesses/:id" element={<BusinessDetailPage />} />
 
+        <Route element={<ProtectedRoute allowedRoles={[ROLES.BUSINESS_ADMIN]} />}>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/businesses/:id" element={<BusinessDetailPage />} />
+        </Route>
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />

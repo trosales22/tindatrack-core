@@ -1,9 +1,51 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Input from "components/ui/Input";
+import React, { useEffect } from "react";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { LoginData, loginSchema } from "schemas/loginSchema";
+import { useLoginMutation } from "hooks/auth";
+import { toast } from 'react-toastify';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const authStatus = Cookies.get('auth_status') ?? '';
+
+    useEffect(() => {
+        if (authStatus === 'authenticated') {
+            navigate("/");
+        }
+    }, []);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<LoginData>({
+        resolver: zodResolver(loginSchema)
+    });
+
+    const { mutate: login, isPending: isLoginLoading } = useLoginMutation({
+        onSuccess: (res) => {
+            const role = res?.data?.details?.role
+
+            toast.success("Successfully logged in.");
+
+            Cookies.set('auth_status', 'authenticated');
+            Cookies.set('token', res.data?.access_token?.token);
+            Cookies.set('firstname', res?.data?.details?.firstname);
+            Cookies.set('lastname', res?.data?.details?.lastname);
+            Cookies.set('role', role);
+
+            navigate('/')
+        },
+        onError: () => { }
+    });
+
+    const onSubmit = (data: LoginData) => {
+        login(data);
+    };
 
     return (
         <div className="min-h-screen flex justify-center items-center py-12 bg-gradient-to-r from-teal-300 via-cyan-400 to-sky-500">
@@ -17,39 +59,30 @@ const LoginPage: React.FC = () => {
             Welcome! Please log in to get started.
             </p>
 
-            <form className="space-y-4">
-                <div className="form-control">
-                    <label htmlFor="email" className="label text-sm font-medium">Email Address</label>
-                    <input
-                    type="email"
-                    id="email"
-                    className="input input-bordered w-full p-3 text-base rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    />
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <Input
+                    label="User ID"
+                    type="text"
+                    placeholder="Enter user ID"
+                    error={errors.user_id ? errors.user_id.message : ""}
+                    {...register("user_id")}
+                />
 
-                <div className="form-control">
-                    <label htmlFor="password" className="label text-sm font-medium">Password</label>
-                    <input
+                <Input
+                    label="Password"
                     type="password"
-                    id="password"
-                    className="input input-bordered w-full p-3 text-base rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                    placeholder="Your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    />
-                </div>
+                    placeholder="Enter password"
+                    error={errors.password ? errors.password.message : ""}
+                    {...register("password")}
+                />
 
                 <div className="mt-6">
                     <button
-                    type="submit"
-                    className="btn btn-primary w-full py-3 rounded-md text-lg font-semibold hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                        type="submit"
+                        className="btn btn-primary w-full py-3 rounded-md text-lg font-semibold hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300"
+                        disabled={isLoginLoading}
                     >
-                    Login
+                    { isLoginLoading ? 'Loading..' : 'Login'}
                     </button>
                 </div>
 
