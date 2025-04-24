@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Homepage from "pages/Home";
 import NotFound from "components/NotFound";
+import BusinessDetailPage from "pages/BusinessDetail";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Homepage />} />
+        <Route path="/businesses/:id" element={<BusinessDetailPage />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

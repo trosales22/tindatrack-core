@@ -1,15 +1,19 @@
-import Wrapper from "./Wrapper";
+import React from "react";
+import Header from "./Header";
 
 interface LayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-    return (
-        <Wrapper>
-            {children}
-        </Wrapper>
-    );
-}
+  return (
+    <div className="flex flex-col h-screen">
+      <Header />
+      <main className="flex-1 overflow-y-auto mt-20 p-4">
+      {children}
+      </main>
+    </div>
+  );
+};
 
 export default Layout;

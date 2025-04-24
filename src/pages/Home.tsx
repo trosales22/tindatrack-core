@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useState } from "react";
 import { Building2, BarChart3, Settings } from "lucide-react"
 import { Dock } from "components/ui/components";
-import Header from "components/Header";
+import Layout from "components/Layout";
 
 const BusinessSection = lazy(() => import("components/modules/BusinessSection"));
 const SummaryReportSection = lazy(() => import("components/modules/SummaryReportSection"));
@@ -44,18 +44,14 @@ const Homepage: React.FC = () => {
     ];
 
     return (
-        <div className="flex flex-col h-screen">
-            <Header />
+        <Layout>
+            <Suspense fallback={<div>Loading...</div>}>
+                {renderSection()}
+            </Suspense>
 
-            <div className="flex-1 mt-20 p-4">
-                <Suspense fallback={<div>Loading...</div>}>
-                    {renderSection()}
-                </Suspense>
-
-                <Dock buttons={buttons} className="mt-8" />
-            </div>
-        </div>
-  );
+            <Dock buttons={buttons} className="mt-8" />
+        </Layout>
+    );
 };
 
 export default Homepage;
