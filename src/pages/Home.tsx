@@ -2,14 +2,12 @@ import React, { lazy, Suspense, useState } from "react";
 import { Building2, BarChart3, Settings } from "lucide-react"
 import { Dock } from "components/ui/components";
 import Layout from "components/Layout";
-import { useScrollDirection } from "hooks/useScrollDirection";
 
 const BusinessSection = lazy(() => import("components/modules/BusinessSection"));
 const SummaryReportSection = lazy(() => import("components/modules/SummaryReportSection"));
 const SettingsSection = lazy(() => import("components/modules/SettingsSection"));
 
 const Homepage: React.FC = () => {
-    const isScrollingUp = useScrollDirection();
     const [activeSection, setActiveSection] = useState("businesses");
 
     const handleDockClick = (section: string) => {
@@ -47,12 +45,14 @@ const Homepage: React.FC = () => {
 
     return (
         <Layout>
-            <Suspense fallback={<div>Loading...</div>}>
-                {renderSection()}
-            </Suspense>
-
-            <div className={`fixed bottom-0 left-0 right-0 transition-transform duration-300 z-50 ${isScrollingUp ? "translate-y-0" : "translate-y-full"}`}>
-                <Dock buttons={buttons} className="mt-8" />
+            <div className="h-screen flex flex-col">
+            <div className="flex-1 overflow-y-auto">
+                <Suspense fallback={<div>Loading...</div>}>
+                    {renderSection()}
+                </Suspense>
+            </div>
+            
+            <Dock buttons={buttons} className="mt-8" />
             </div>
         </Layout>
     );
