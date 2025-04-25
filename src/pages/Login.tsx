@@ -3,11 +3,12 @@ import React from "react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { LoginData, loginSchema } from "schemas/loginSchema";
 import { useLoginMutation } from "hooks/auth";
+import { useSetAuthField } from "hooks/useSetAuthField";
 
 const LoginPage: React.FC = () => {
+    const { setAuthField } = useSetAuthField()
     const navigate = useNavigate();
     
     const {
@@ -20,12 +21,11 @@ const LoginPage: React.FC = () => {
 
     const { mutate: login, isPending: isLoginLoading } = useLoginMutation({
         onSuccess: (res) => {
-            const role = res?.data?.details?.role
-            Cookies.set('auth_status', 'authenticated', { expires: 7 });
-            Cookies.set('token', res.data?.access_token?.token, { expires: 7 });
-            Cookies.set('firstname', res?.data?.details?.firstname, { expires: 7 });
-            Cookies.set('lastname', res?.data?.details?.lastname, { expires: 7 });
-            Cookies.set('role', role);
+            setAuthField('auth_status', 'authenticated')
+            setAuthField('firstname', res?.data?.details?.firstname)
+            setAuthField('lastname', res?.data?.details?.lastname)
+            setAuthField('role', res?.data?.details?.role)
+            setAuthField('token', res?.data?.access_token.token)
 
             navigate('/')
         },

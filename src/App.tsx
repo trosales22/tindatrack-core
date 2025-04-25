@@ -10,6 +10,8 @@ import BusinessDetailPage from "pages/BusinessDetail";
 import ProtectedRoute from "components/ProtectedRoute";
 import { ROLES } from "constants/roles";
 import RegisterPage from "pages/Register";
+import SummaryReportPage from "pages/SummaryReport";
+import SettingsPage from "pages/Settings";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route element={<ProtectedRoute allowedRoles={[ROLES.BUSINESS_ADMIN]} />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/businesses/:id" element={<BusinessDetailPage />} />
+          <Route path="/summary-report" element={<SummaryReportPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Route>
         
         <Route path="*" element={<NotFound />} />

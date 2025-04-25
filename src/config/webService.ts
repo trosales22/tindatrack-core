@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { debounce, get } from 'lodash';
 import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
+import { useAuthData } from 'hooks/useAuthData';
+import { useRemoveAuthField } from 'hooks/useRemoveAuthField';
 
 const debouncedToastInfo = debounce(toast.info, 250);
 const debouncedToastError = debounce(toast.error, 250);
@@ -12,7 +13,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // Request Interceptor
 axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = Cookies.get('token');
+  const { token } = useAuthData();
 
   if (token) {
     config.headers = config.headers || {};
@@ -26,14 +27,15 @@ axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
+    const { removeAuthField } = useRemoveAuthField()
     const errorMessage: any = get(error, 'response.data.errors[0].message') || get(error, 'response.data.message');
     const errorCode = error?.response?.status;
 
     if (['Token expired.', 'Token has expired.'].includes(errorMessage)) {
       debouncedToastInfo('Please re-login to continue.');
-      Cookies.remove('auth_status');
-      Cookies.remove('token');
-      Cookies.remove('role');
+      removeAuthField('auth_status');
+      removeAuthField('token');
+      removeAuthField('role');
       window.location.href = '/login';
       return Promise.reject(error);
     }
@@ -42,9 +44,9 @@ axios.interceptors.response.use(
       debouncedToastError(errorMessage || 'Bad Request!');
     } else if (errorCode === 401) {
       debouncedToastError(errorMessage || 'Unauthorized');
-      Cookies.remove('auth_status');
-      Cookies.remove('token');
-      Cookies.remove('role');
+      removeAuthField('auth_status');
+      removeAuthField('token');
+      removeAuthField('role');
       window.location.href = '/login';
     } else if (errorCode === 422) {
       debouncedToastError(errorMessage || 'Unprocessable Entity!');

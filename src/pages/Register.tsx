@@ -3,17 +3,19 @@ import React, { useEffect } from "react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { useRegisterBusinessAdminMutation } from "hooks/auth";
 import { toast } from 'react-toastify';
 import { UserFormData, userSchema } from "schemas/userSchema";
+import { useSetAuthField } from "hooks/useSetAuthField";
+import { useAuthData } from "hooks/useAuthData";
 
 const RegisterPage: React.FC = () => {
+    const { setAuthField } = useSetAuthField()
+    const { isAuthenticated } = useAuthData()
     const navigate = useNavigate();
-    const authStatus = Cookies.get('auth_status') ?? '';
 
     useEffect(() => {
-        if (authStatus === 'authenticated') {
+        if (isAuthenticated) {
             navigate("/");
         }
     }, []);
@@ -28,15 +30,13 @@ const RegisterPage: React.FC = () => {
 
     const { mutate: registerBusinessAdmin, isPending: isRegisterBusinessAdminLoading } = useRegisterBusinessAdminMutation({
         onSuccess: (res) => {
-            const role = res?.data?.details?.role
+            setAuthField('auth_status', 'authenticated')
+            setAuthField('firstname', res?.data?.details?.firstname)
+            setAuthField('lastname', res?.data?.details?.lastname)
+            setAuthField('role', res?.data?.details?.role)
+            setAuthField('token', res?.data?.access_token.token)
 
             toast.success("Successfully registered as business admin.");
-
-            Cookies.set('auth_status', 'authenticated', { expires: 7 });
-            Cookies.set('token', res.data?.access_token?.token, { expires: 7 });
-            Cookies.set('firstname', res?.data?.details?.firstname, { expires: 7 });
-            Cookies.set('lastname', res?.data?.details?.lastname, { expires: 7 });
-            Cookies.set('role', role, { expires: 7 });
 
             navigate('/')
         },

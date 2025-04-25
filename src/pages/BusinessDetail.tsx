@@ -1,22 +1,25 @@
 import React, { lazy, Suspense } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   Store,
   Edit,
   Trash2,
 } from "lucide-react";
-import { Tabs } from "components/ui/components";
-import LayoutWithFooter from "components/LayoutWithFooter";
+import { Breadcrumbs, Tabs } from "components/ui/components";
 import { useShowBusinessByIdQuery } from "hooks/business";
+import Layout from "components/layout/Layout";
 
 const BusinessDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>()
     const { data: response }: any = useShowBusinessByIdQuery({
       businessId: id
     })
-
     const businessDetail = response?.data?.data?.attributes || null
+    const breadcrumbItems = [
+      { label: 'Businesses', href: '/' },
+      { label: businessDetail?.name, href: `/businesses/${id}` }
+    ];
+
     const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
     const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
     const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
@@ -65,11 +68,9 @@ const BusinessDetailPage: React.FC = () => {
     ];
 
     return (
-      <LayoutWithFooter>
+      <Layout>
         <div className="px-3 sm:px-6">
-          <Link to="/" className="text-sm text-primary flex items-center gap-1 mb-4 hover:underline">
-            <ArrowLeft className="w-4 h-4" /> Back to Businesses
-          </Link>
+          <Breadcrumbs items={breadcrumbItems} />
 
           <div className="bg-white dark:bg-base-200 shadow-md rounded-2xl p-4 flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6">
           <div className="bg-primary text-white p-4 rounded-full shadow-lg">
@@ -101,7 +102,7 @@ const BusinessDetailPage: React.FC = () => {
             <Tabs tabs={tabData} defaultIndex={0} withBorder={true} />
           </div>
         </div>
-      </LayoutWithFooter>
+      </Layout>
     );
 };
 

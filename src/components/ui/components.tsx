@@ -2,6 +2,7 @@
 
 import Dock from "./Dock"
 import Alert from "./Alert"
+import Breadcrumbs from "./Breadcrumbs"
 import Input from "./Input"
 import TextArea from "./TextArea"
 import Select from "./Select"
@@ -15,6 +16,7 @@ import FileInput from "./FileInput"
 export {
     Dock,
     Alert,
+    Breadcrumbs,
     Input,
     TextArea,
     Select,
