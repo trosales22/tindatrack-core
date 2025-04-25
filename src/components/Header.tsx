@@ -55,7 +55,6 @@ const Header: React.FC = () => {
                 <span className="text-xs text-gray-500">{formattedRole}</span>
               </div>
             </li>
-            <li><a href="#settings">Settings</a></li>
             <li><a onClick={onLogoutHandler}>Logout</a></li>
           </ul>
         </div>
