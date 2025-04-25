@@ -1,12 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Edit,
-  Trash2,
-} from "lucide-react";
 import { Breadcrumbs, Tabs } from "components/ui/components";
 import { useShowBusinessByIdQuery } from "hooks/business";
 import Layout from "components/layout/Layout";
+import BusinessCard from "components/BusinessCard";
 
 const BusinessDetailPage: React.FC = () => {
     const { id } = useParams<{ id: string }>()
@@ -70,28 +67,7 @@ const BusinessDetailPage: React.FC = () => {
       <Layout>
         <Breadcrumbs items={breadcrumbItems} />
 
-        <div className="bg-white shadow-md rounded-2xl p-4 mb-4">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
-            <div className="text-left w-full">
-              <h1 className="text-xl sm:text-2xl font-bold">{businessDetail?.name}</h1>
-              <p className="text-sm sm:text-sm text-gray-800 mt-1">Type: {businessDetail?.type?.label}</p>
-              <p className="text-sm sm:text-sm text-gray-800">Owner: {`${businessDetail?.owner?.firstname} ${businessDetail?.owner?.lastname}`}</p>
-              <p className="text-sm sm:text-sm text-gray-800">Status: {businessDetail?.status?.label}</p>
-              <p className="text-sm sm:text-sm text-gray-800">Created on: {businessDetail?.created_at}</p>
-            </div>
-
-            <div className="flex gap-3 justify-start mt-4 sm:mt-0 self-start">
-              <button className="text-primary hover:text-primary-focus">
-                <Edit className="w-5 h-5" />
-                <span className="sr-only">Edit</span>
-              </button>
-              <button className="text-error hover:text-error-focus">
-                <Trash2 className="w-5 h-5" />
-                <span className="sr-only">Delete</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <BusinessCard businessDetail={businessDetail} />
 
         <div className="mt-5">
           <Tabs tabs={tabData} defaultIndex={0} withBorder={true} />
