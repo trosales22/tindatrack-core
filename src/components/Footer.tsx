@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-gray-800 text-white py-4">
-            <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+        <footer className="fixed bottom-0 w-full bg-gray-800 text-white py-4 z-50">
+            <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-4">
                 <div className="text-center sm:text-left">
                 <p className="text-sm sm:text-base">TindaTrack (short for “Tindahan Tracker”)</p>
                 </div>

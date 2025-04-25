@@ -1,18 +1,13 @@
-import React, { lazy, Suspense, useState } from "react";
-import { Building2, BarChart3, Settings } from "lucide-react"
-import { Dock } from "components/ui/components";
+import React, { lazy, Suspense } from "react";
 import Layout from "components/Layout";
+import { useDockNavigationStore } from "stores/useDockNavigationStore";
 
 const BusinessSection = lazy(() => import("components/modules/BusinessSection"));
 const SummaryReportSection = lazy(() => import("components/modules/SummaryReportSection"));
 const SettingsSection = lazy(() => import("components/modules/SettingsSection"));
 
 const Homepage: React.FC = () => {
-    const [activeSection, setActiveSection] = useState("businesses");
-
-    const handleDockClick = (section: string) => {
-        setActiveSection(section);
-    };
+    const { activeSection } = useDockNavigationStore()
 
     const renderSection = () => {
         switch (activeSection) {
@@ -25,31 +20,11 @@ const Homepage: React.FC = () => {
         }
     };
 
-    const buttons = [
-        {
-            label: "Businesses",
-            icon: <Building2 className="w-6 h-6" />,
-            onClick: () => handleDockClick("businesses")
-        },
-        {
-            label: "Summary Report",
-            icon: <BarChart3 className="w-6 h-6" />,
-            onClick: () => handleDockClick("summary-report")
-        },
-        {
-            label: "Settings",
-            icon: <Settings className="w-6 h-6" />,
-            onClick: () => handleDockClick("settings")
-        },
-    ];
-
     return (
         <Layout>
             <Suspense fallback={<div>Loading...</div>}>
                 {renderSection()}
             </Suspense>
-            
-            <Dock buttons={buttons} className="mt-8" />
         </Layout>
     );
 };
