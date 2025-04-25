@@ -1,5 +1,5 @@
 import Input from "components/ui/Input";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,14 +10,7 @@ import { toast } from 'react-toastify';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
-    const authStatus = Cookies.get('auth_status') ?? '';
-
-    useEffect(() => {
-        if (authStatus === 'authenticated') {
-            navigate("/");
-        }
-    }, []);
-
+    
     const {
         register,
         handleSubmit,

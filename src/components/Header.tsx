@@ -1,23 +1,17 @@
 import React from "react";
 import { User } from "lucide-react";
-import { Role, ROLES } from "constants/roles";
 import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from "hooks/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "context/AuthContext";
 
 const Header: React.FC = () => {
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const firstName = Cookies.get('firstname')
-  const lastName = Cookies.get('lastname')
-  const userRole = (Cookies.get('role') as Role) ?? ''
-
-  const roleMap: Record<string, string> = {
-    [ROLES.SUPER_ADMIN]: 'Super Administrator',
-    [ROLES.BUSINESS_ADMIN]: 'Business Admin',
-  };
-
-  const formattedRole = roleMap[userRole] || 'Unknown';
+  const firstName = user.firstName
+  const lastName = user.lastName
+  const formattedRole = user.formattedRole;
 
   const logoutMutation = useLogoutMutation({
     onSuccess: () => {
