@@ -45,15 +45,11 @@ const Homepage: React.FC = () => {
 
     return (
         <Layout>
-            <div className="h-screen flex flex-col">
-            <div className="flex-1 overflow-y-auto">
-                <Suspense fallback={<div>Loading...</div>}>
-                    {renderSection()}
-                </Suspense>
-            </div>
+            <Suspense fallback={<div>Loading...</div>}>
+                {renderSection()}
+            </Suspense>
             
             <Dock buttons={buttons} className="mt-8" />
-            </div>
         </Layout>
     );
 };
