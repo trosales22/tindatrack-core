@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { LoginData, loginSchema } from "schemas/loginSchema";
 import { useLoginMutation } from "hooks/auth";
-import { toast } from 'react-toastify';
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
@@ -22,9 +21,6 @@ const LoginPage: React.FC = () => {
     const { mutate: login, isPending: isLoginLoading } = useLoginMutation({
         onSuccess: (res) => {
             const role = res?.data?.details?.role
-
-            toast.success("Successfully logged in.");
-
             Cookies.set('auth_status', 'authenticated', { expires: 7 });
             Cookies.set('token', res.data?.access_token?.token, { expires: 7 });
             Cookies.set('firstname', res?.data?.details?.firstname, { expires: 7 });
@@ -33,7 +29,7 @@ const LoginPage: React.FC = () => {
 
             navigate('/')
         },
-        onError: () => { }
+        onError: () => {}
     });
 
     const onSubmit = (data: LoginData) => {

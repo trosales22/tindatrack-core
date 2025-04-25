@@ -4,14 +4,20 @@ import Cookies from "js-cookie";
 import { toast } from 'react-toastify';
 import { useLogoutMutation } from "hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "context/AuthContext";
+import { Role, ROLES } from "constants/roles";
 
 const Header: React.FC = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
-  const firstName = user.firstName
-  const lastName = user.lastName
-  const formattedRole = user.formattedRole;
+  const firstName = Cookies.get('firstname')
+  const lastName = Cookies.get('lastname')
+  const userRole = (Cookies.get('role') as Role) ?? ''
+
+  const roleMap: Record<string, string> = {
+    [ROLES.SUPER_ADMIN]: 'Super Administrator',
+    [ROLES.BUSINESS_ADMIN]: 'Business Admin',
+  };
+
+  const formattedRole = roleMap[userRole] || 'Unknown';
 
   const logoutMutation = useLogoutMutation({
     onSuccess: () => {
