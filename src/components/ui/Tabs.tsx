@@ -35,7 +35,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
       <div
         className={`w-full ${
           withBorder ? 'border border-dashed border-gray-400' : ''
-        } rounded-md bg-white shadow-sm p-4 sm:p-6 overflow-x-auto`}
+        } rounded-md bg-white overflow-x-auto`}
       >
         {tabs[activeIndex].content}
       </div>

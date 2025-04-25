@@ -70,7 +70,7 @@ const BusinessDetailPage: React.FC = () => {
         <BusinessCard businessDetail={businessDetail} />
 
         <div className="mt-5">
-          <Tabs tabs={tabData} defaultIndex={0} withBorder={true} />
+          <Tabs tabs={tabData} defaultIndex={0} withBorder={false} />
         </div>
       </Layout>
     );
