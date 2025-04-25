@@ -32,11 +32,11 @@ const RegisterPage: React.FC = () => {
 
             toast.success("Successfully registered as business admin.");
 
-            Cookies.set('auth_status', 'authenticated');
-            Cookies.set('token', res.data?.access_token?.token);
-            Cookies.set('firstname', res?.data?.details?.firstname);
-            Cookies.set('lastname', res?.data?.details?.lastname);
-            Cookies.set('role', role);
+            Cookies.set('auth_status', 'authenticated', { expires: 7 });
+            Cookies.set('token', res.data?.access_token?.token, { expires: 7 });
+            Cookies.set('firstname', res?.data?.details?.firstname, { expires: 7 });
+            Cookies.set('lastname', res?.data?.details?.lastname, { expires: 7 });
+            Cookies.set('role', role, { expires: 7 });
 
             navigate('/')
         },
