@@ -17,9 +17,9 @@ const BusinessDetailPage: React.FC = () => {
   ];
 
   const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
-  const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
   const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
-
+  const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
+  
   const tabData = [
     {
       label: 'Dashboard',
@@ -44,22 +44,6 @@ const BusinessDetailPage: React.FC = () => {
           <BDSalesHistorySection businessId={id} />
         </Suspense>
       )
-    },
-    {
-      label: 'Inventory',
-      content: (
-        <Suspense fallback={<div>Loading Inventory...</div>}>
-          Test
-        </Suspense>
-      )
-    },
-    {
-      label: 'Investments',
-      content: (
-        <Suspense fallback={<div>Loading Investments...</div>}>
-          Test
-        </Suspense>
-      )
     }
   ];
 
@@ -69,7 +53,7 @@ const BusinessDetailPage: React.FC = () => {
 
       <BusinessCard businessId={id} businessDetail={businessDetail} />
 
-      <div className="mt-5">
+      <div className="mt-5 h-screen bg-gray-50">
         <Tabs tabs={tabData} defaultIndex={0} withBorder={false} />
       </div>
     </Layout>

@@ -1,12 +1,6 @@
 import axios from 'axios';
-import { BusinessPayload } from 'types/business';
+import { BusinessListParams, BusinessPayload } from 'types/business';
 import { BusinessIdParams, BusinessProductPayload, ProductIdParams } from 'types/businessProduct';
-
-interface BusinessListParams {
-    q?: string;
-    page?: number;
-    limit?: number;
-}
 
 export const getBusinessList = (params: BusinessListParams) => axios.get('/api/v1/core/businesses', {
     params: params

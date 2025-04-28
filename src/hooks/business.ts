@@ -9,7 +9,7 @@ type BusinessListParams = {
 };
 
 type BusinessShowParams = {
-  businessId?: string | undefined;
+  businessId?: string;
   queryOptions?: UseQueryOptions;
 };
 

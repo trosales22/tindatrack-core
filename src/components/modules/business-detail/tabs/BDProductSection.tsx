@@ -7,13 +7,14 @@ import Wrapper from "components/Wrapper";
 import Button from "components/ui/Button";
 import { useDeleteBusinessProductMutation, useListBusinessProductQuery } from "hooks/business-product";
 import { formatCurrency } from "utils";
-import { Pencil, Trash } from "lucide-react";
+import { Package, Pencil, Trash } from "lucide-react";
 import Modal from "components/ui/Modal";
 import AddBusinessProductForm from "../forms/AddBusinessProductForm";
 import { useProductStore } from "stores/useProductStore";
 import EditBusinessProductForm from "../forms/EditBusinessProductForm";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "context/ToastContext";
+import ManageProductInventoryForm from "../forms/ManageProductInventoryForm";
 
 interface ProductSectionProps {
     businessId?: string;
@@ -30,7 +31,9 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
         setOpenEditBusinessProduct,
         setOpenDeleteBusinessProduct,
         selectedProductId,
-        setSelectedProductId
+        setSelectedProductId,
+        openManageProductInventory,
+        setOpenManageProductInventory
     } = useProductStore()
     const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
@@ -64,6 +67,11 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
     const onEditProductHandler = (productId?: string | null) => {
         setSelectedProductId(productId)
         setOpenEditBusinessProduct(true)
+    }
+
+    const onManageProductInventoryHandler = (productId?: string | null) => {
+        setSelectedProductId(productId)
+        setOpenManageProductInventory(true)
     }
 
     const onShowDeleteProductConfirmation = (productId?: string | null) => {
@@ -139,6 +147,15 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                                 >
                                     <Pencil className="w-4 h-4" />
                                 </Button>
+
+                                <Button
+                                    variant="ghost"
+                                    className="btn-sm text-blue-500 hover:bg-blue-100"
+                                    tooltip="Manage Inventory"
+                                    onClick={() => onManageProductInventoryHandler(item.id)}
+                                >
+                                    <Package className="w-4 h-4" />
+                                </Button>
                                 
                                 <Button
                                     variant="ghost"
@@ -198,6 +215,25 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                     businessId={businessId}
                     productId={selectedProductId}
                     onClose={() => setOpenEditBusinessProduct(false)} 
+                />
+            )}
+            </Modal>
+
+            <Modal
+                id="manage-inventory-modal"
+                title="Manage Inventory"
+                closeButton
+                closeOnBackdrop
+                isOpen={openManageProductInventory}
+                size="md"
+                onClose={() => setOpenManageProductInventory(false)}
+                headerColor="blue"
+            >
+            {openManageProductInventory && (
+                <ManageProductInventoryForm 
+                    businessId={businessId}
+                    productId={selectedProductId}
+                    onClose={() => setOpenManageProductInventory(false)} 
                 />
             )}
             </Modal>

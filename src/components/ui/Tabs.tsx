@@ -15,7 +15,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   return (
-    <div>
+    <div className="flex flex-col h-full">
       <div className="flex flex-wrap gap-2 mb-4">
         {tabs.map((tab, idx) => (
           <button
@@ -31,11 +31,11 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
           </button>
         ))}
       </div>
-
+      
       <div
-        className={`w-full ${
+        className={`w-full flex-1 ${
           withBorder ? 'border border-dashed border-gray-400' : ''
-        } rounded-md bg-white overflow-x-auto`}
+        } rounded-md bg-white overflow-auto p-2`}
       >
         {tabs[activeIndex].content}
       </div>

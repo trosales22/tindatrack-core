@@ -47,3 +47,9 @@ export interface Business {
     type: string;
     attributes: BusinessAttributes;
 }
+
+export interface BusinessListParams {
+    q?: string;
+    page?: number;
+    limit?: number;
+}
