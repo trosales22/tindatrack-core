@@ -74,10 +74,10 @@ const HomePage: React.FC = () => {
           businesses.map((business) => (
             <div
               key={business.id}
-              className="w-full bg-white shadow-md rounded-xl p-4 flex justify-between items-center hover:shadow-lg transition cursor-pointer"
+              className="w-full bg-white shadow-md rounded-xl p-4 flex items-center hover:shadow-lg transition cursor-pointer"
               onClick={() => navigate(`/businesses/${business.id}`)}
             >
-              <div>
+              <div className="flex-1">
                 <h2 className="text-lg font-medium text-base-content">
                   {business?.attributes?.name}
                 </h2>
@@ -86,14 +86,18 @@ const HomePage: React.FC = () => {
                 </p>
               </div>
               <button
-                className="btn btn-sm btn-ghost"
-                onClick={() => navigate(`/businesses/${business.id}`)}
+                className="btn btn-sm btn-ghost ml-auto"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/businesses/${business.id}`);
+                }}
               >
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
-          ))}
-
+          ))
+        }
+        
         {!isLoading && !isError && businesses.length > 0 && (
           <Pagination
             totalPages={totalPages}
