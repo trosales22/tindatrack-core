@@ -4,6 +4,7 @@ import Dock from "./Dock"
 import Alert from "./Alert"
 import Breadcrumbs from "./Breadcrumbs"
 import Input from "./Input"
+import CurrencyInput from "./CurrencyInput"
 import TextArea from "./TextArea"
 import Select from "./Select"
 import Button from "./Button"
@@ -18,6 +19,7 @@ export {
     Alert,
     Breadcrumbs,
     Input,
+    CurrencyInput,
     TextArea,
     Select,
     Button,

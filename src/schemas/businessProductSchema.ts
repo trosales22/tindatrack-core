@@ -1,0 +1,36 @@
+import { PRODUCT_CATEGORIES, STATUSES } from "utils/businessData";
+import { z } from "zod";
+
+export const businessProductSchema = z.object({
+  name: z.string().nonempty("Product Name is required"),
+  category: z.enum([
+    PRODUCT_CATEGORIES.SNACKS,
+    PRODUCT_CATEGORIES.BEVERAGES,
+    PRODUCT_CATEGORIES.CANNED_GOODS,
+    PRODUCT_CATEGORIES.INSTANT_NOODLES,
+    PRODUCT_CATEGORIES.RICE_AND_GRAINS,
+    PRODUCT_CATEGORIES.BREAD_AND_BAKERY,
+    PRODUCT_CATEGORIES.FROZEN_GOODS,
+    PRODUCT_CATEGORIES.CONDIMENTS_AND_SAUCES,
+    PRODUCT_CATEGORIES.COOKING_ESSENTIALS,
+    PRODUCT_CATEGORIES.PERSONAL_CARE,
+    PRODUCT_CATEGORIES.CLEANING_SUPPLIES,
+    PRODUCT_CATEGORIES.PET_SUPPLIES,
+    PRODUCT_CATEGORIES.SARI_SARI_ESSENTIALS,
+    PRODUCT_CATEGORIES.E_SERVICES,
+    PRODUCT_CATEGORIES.STATIONERY,
+    PRODUCT_CATEGORIES.TOYS_ACCESSORIES,
+    PRODUCT_CATEGORIES.HOME_KITCHEN,
+    PRODUCT_CATEGORIES.VEGETABLES,
+    PRODUCT_CATEGORIES.FRUITS,
+    PRODUCT_CATEGORIES.OTHERS
+  ]),
+  unit_price: z.coerce.number().positive("Unit Price must be a positive number"),
+  cost_price: z.coerce.number().positive("Cost Price must be a positive number"),
+  status: z.enum([
+    STATUSES.ACTIVE,
+    STATUSES.INACTIVE
+  ])
+});
+
+export type BusinessProductFormData = z.infer<typeof businessProductSchema>;

@@ -5,6 +5,11 @@ export interface BusinessOwnerObject {
     lastname: string;
 }
 
+export interface BusinessPayload {
+    name: string;
+    type?: string;
+}
+
 export interface BusinessAttributes {
     name: string;
     type: {

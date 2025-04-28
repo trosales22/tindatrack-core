@@ -5,28 +5,75 @@ import Pagination from "components/ui/Pagination";
 import { debounce } from "lodash";
 import Wrapper from "components/Wrapper";
 import Button from "components/ui/Button";
+import { useDeleteBusinessProductMutation, useListBusinessProductQuery } from "hooks/business-product";
+import { formatCurrency } from "utils";
+import { Pencil, Trash } from "lucide-react";
+import Modal from "components/ui/Modal";
+import AddBusinessProductForm from "../forms/AddBusinessProductForm";
+import { useProductStore } from "stores/useProductStore";
+import EditBusinessProductForm from "../forms/EditBusinessProductForm";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from 'react-toastify';
 
 interface ProductSectionProps {
-    businessId: string | undefined;
+    businessId?: string;
 }
 
 const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
-    console.log(businessId) 
-
-    const [search, setSearch] = useState("");
-    console.log(search)
+    const queryClient = useQueryClient()
+    const { 
+        openCreateBusinessProduct, 
+        setOpenCreateBusinessProduct,
+        openEditBusinessProduct,
+        openDeleteBusinessProduct,
+        setOpenEditBusinessProduct,
+        setOpenDeleteBusinessProduct,
+        selectedProductId,
+        setSelectedProductId
+    } = useProductStore()
+    const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(25);
     const handleSearchChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value)
+        setCurrentPage(1)
     }, 300);
 
-    const isLoading = false
-    const isError= false
-    const response: any = []
+    const { data: response, isLoading, isError }: any = useListBusinessProductQuery({
+        businessId,
+        params: { q: search, page: currentPage, limit: itemsPerPage }
+    });
     const list = response?.data?.data || []; 
     const totalItems = response?.data?.meta?.pagination?.total || 0; 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const { mutate: deleteProduct, isPending: isDeleteProductLoading } = useDeleteBusinessProductMutation({
+        onSuccess: () => {
+            toast.success("Deleted product successfully.");
+            queryClient.invalidateQueries({ queryKey: ['BUSINESS_PRODUCT_LIST', businessId] });
+            setOpenDeleteBusinessProduct(false);
+            setSelectedProductId(null)
+        },
+        onError: () => {}
+    });
+
+    
+    const onEditProductHandler = (productId?: string | null) => {
+        setSelectedProductId(productId)
+        setOpenEditBusinessProduct(true)
+    }
+
+    const onShowDeleteProductConfirmation = (productId?: string | null) => {
+        setSelectedProductId(productId)
+        setOpenDeleteBusinessProduct(true)
+    }
+
+    const onDeleteProductHandler = () => {
+        deleteProduct({
+            businessId,
+            productId: selectedProductId
+        })
+    }
     
     return (
         <Wrapper>
@@ -39,7 +86,11 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                 />
 
                 <div className="flex sm:justify-end">
-                    <Button variant="primary" className="px-4 py-2">+ Add Product</Button>
+                    <Button 
+                        variant="primary" 
+                        className="px-4 py-2"
+                        onClick={() => setOpenCreateBusinessProduct(true)}
+                    >+ Add Product</Button>
                 </div>
             </div>
 
@@ -60,7 +111,7 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
             {!isLoading && !isError && (
                 <>
                 <Table
-                    headers={["Product Name", "Category","Unit Price", "Cost Price", "Status", "Actions"]}
+                    headers={["Product Name", "Category", "Unit Price", "Cost Price", "Status", "Date Created", "Actions"]}
                     headerColor="bg-[#0B1F3A]"
                     borderColor="border-gray-300"
                     bordered
@@ -70,13 +121,31 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                     {list.map((item: any) => {
                         return (
                         <tr key={item.id}>
-                           <td className="font-medium">{item?.attributes?.refno || 'N/A'}</td>
-                            <td className="font-medium">
-                                {`${item?.attributes?.vehicle?.label}`} <code>({item?.attributes?.vehicle?.plate_number})</code>
+                           <td className="font-medium">{item?.attributes?.name || 'N/A'}</td>
+                            <td className="font-medium">{item?.attributes?.category?.label}</td>
+                            <td className="font-medium">{formatCurrency(item?.attributes?.unit_price || 0.0)}</td>
+                            <td className="font-medium">{formatCurrency(item?.attributes?.cost_price || 0.0)}</td>
+                            <td className="font-medium">{item?.attributes?.status?.label}</td>
+                            <td className="font-medium">{item?.attributes?.created_at}</td>
+                            <td>
+                                <Button
+                                    variant="ghost"
+                                    className="btn-sm text-orange-500 hover:bg-orange-100"
+                                    tooltip="Edit"
+                                    onClick={() => onEditProductHandler(item.id)}
+                                >
+                                    <Pencil className="w-4 h-4" />
+                                </Button>
+                                
+                                <Button
+                                    variant="ghost"
+                                    className="btn-sm text-red-500 hover:bg-red-100"
+                                    tooltip="Delete"
+                                    onClick={() => onShowDeleteProductConfirmation(item.id)}
+                                >
+                                    <Trash className="w-4 h-4" />
+                                </Button>
                             </td>
-                            <td className="font-medium">{item?.attributes?.entry_time || 'N/A'}</td>
-                            <td className="font-medium">{item?.attributes?.exit_time || 'N/A'}</td>
-                            <td className="font-medium">{`${item?.attributes?.recorded_by?.firstname} ${item?.attributes?.recorded_by?.lastname}`}</td>
                         </tr>)
                     })}
                 </Table>
@@ -92,6 +161,66 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                 />
                 </>
             )}
+
+            <Modal
+                id="add-product-modal"
+                title="Add Product"
+                closeButton
+                closeOnBackdrop
+                isOpen={openCreateBusinessProduct}
+                size="md"
+                onClose={() => setOpenCreateBusinessProduct(false)}
+                headerColor="blue"
+            >
+            {openCreateBusinessProduct && (
+                <AddBusinessProductForm 
+                    businessId={businessId}
+                    onClose={() => setOpenCreateBusinessProduct(false)} 
+                />
+            )}
+            </Modal>
+
+            <Modal
+                id="edit-product-modal"
+                title="Edit Product"
+                closeButton
+                closeOnBackdrop
+                isOpen={openEditBusinessProduct}
+                size="md"
+                onClose={() => setOpenEditBusinessProduct(false)}
+                headerColor="blue"
+            >
+            {openEditBusinessProduct && (
+                <EditBusinessProductForm 
+                    businessId={businessId}
+                    productId={selectedProductId}
+                    onClose={() => setOpenEditBusinessProduct(false)} 
+                />
+            )}
+            </Modal>
+
+            <Modal
+                id="delete-product-modal"
+                title="Confirm Deletion"
+                isOpen={openDeleteBusinessProduct}
+                onClose={() => setOpenDeleteBusinessProduct(false)}
+                headerColor="red"
+            >
+                {openDeleteBusinessProduct && (
+                    <>
+                    <p>Are you sure you want to delete this product?</p>
+                    <div className="flex justify-end space-x-2 mt-4">
+                        <Button variant="ghost" onClick={() => setOpenDeleteBusinessProduct(false)}>No</Button>
+                        <Button 
+                            variant="danger" 
+                            className="text-white" 
+                            onClick={onDeleteProductHandler}
+                            disabled={isDeleteProductLoading}
+                        >{isDeleteProductLoading ? 'Deleting..' : 'Yes'}</Button>
+                    </div>
+                    </>
+                )}
+            </Modal>
         </Wrapper>
     );
 };
