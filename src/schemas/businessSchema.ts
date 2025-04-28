@@ -1,4 +1,4 @@
-import { STORE_TYPES } from "utils/businessData";
+import { STATUSES, STORE_TYPES } from "utils/businessData";
 import { z } from "zod";
 
 export const businessSchema = z.object({
@@ -11,6 +11,10 @@ export const businessSchema = z.object({
     STORE_TYPES.KIOSK,
     STORE_TYPES.MARKET_VENDOR,
     STORE_TYPES.OTHER
+  ]),
+  status: z.enum([
+    STATUSES.ACTIVE,
+    STATUSES.INACTIVE
   ])
 });
 

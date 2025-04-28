@@ -25,7 +25,7 @@ export const useShowBusinessProductByIdQuery = ({businessId, productId, queryOpt
 export const useCreateBusinessProductMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
   return useMutation({
     mutationKey: ['BUSINESS_PRODUCT_CREATE'],
-    mutationFn: ({ businessId, payload}) => fns.createBusinessProduct(businessId, payload),
+    mutationFn: ({ businessId, payload }) => fns.createBusinessProduct(businessId, payload),
     ...mutationOptions
   });
 };

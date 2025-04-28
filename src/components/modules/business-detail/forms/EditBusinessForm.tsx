@@ -1,23 +1,27 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select, Button } from 'components/ui/components';
 import { businessSchema, BusinessFormData } from "schemas/businessSchema";
-import { useCreateBusinessMutation } from "hooks/business";
+import { useUpdateBusinessMutation } from "hooks/business";
 import { useQueryClient } from "@tanstack/react-query";
 import { statusTypeOptions, storeTypeOptions } from "utils/businessData";
 import { useToast } from "context/ToastContext";
+import { BusinessDetailAttributes } from "types/business";
 
-interface AddBusinessFormProps {
-  onClose: () => void;
+interface EditBusinessFormProps {
+    businessId?: string;
+    businessDetail: BusinessDetailAttributes;
+    onClose: () => void;
 }
 
-const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
+const EditBusinessForm: FC<EditBusinessFormProps> = ({ businessId, businessDetail, onClose }) => {
     const { addToast } = useToast();
     const queryClient = useQueryClient();
 
     const {
         register,
+        setValue,
         reset,
         handleSubmit,
         formState: { errors },
@@ -25,14 +29,21 @@ const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
         resolver: zodResolver(businessSchema),
     });
 
-    const { mutate: createBusiness, isPending: isCreateBusinessLoading } = useCreateBusinessMutation({
+    useEffect(() => {
+        setValue('name', businessDetail?.name)
+        setValue('type', businessDetail?.type?.code)
+        setValue('status', businessDetail?.status?.code)
+    }, [businessDetail])
+
+    const { mutate: updateBusiness, isPending: isUpdateBusinessLoading } = useUpdateBusinessMutation({
         onSuccess: () => {
             addToast({
-                message: 'Added business successfully.',
+                message: 'Update business successfully.',
                 type: 'success'
             });
 
             queryClient.invalidateQueries({ queryKey: ['BUSINESS_LIST'] });
+            queryClient.invalidateQueries({ queryKey: ['BUSINESS_SHOW', businessId] });
             onClose();
             reset();
         },
@@ -40,7 +51,10 @@ const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
     });
 
     const onSubmit = (data: BusinessFormData) => {
-        createBusiness(data);
+        updateBusiness({
+            businessId,
+            payload: data
+        });
     };
 
     return (
@@ -75,12 +89,12 @@ const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
             />
 
             <div className="col-span-full flex justify-end mt-5">
-                <Button variant="primary" type="submit" disabled={isCreateBusinessLoading}>
-                {isCreateBusinessLoading ? "Submitting..." : "Submit"}
+                <Button variant="primary" type="submit" disabled={isUpdateBusinessLoading}>
+                {isUpdateBusinessLoading ? "Updating..." : "Update"}
                 </Button>
             </div>
         </form>
     );
 };
 
-export default AddBusinessForm;
+export default EditBusinessForm;

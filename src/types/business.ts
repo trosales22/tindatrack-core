@@ -1,3 +1,20 @@
+export type BusinessDetailAttributes = {
+    name: string;
+    type: {
+        code: string;
+        label: string;
+    };
+    owner: {
+      firstname: string;
+      lastname: string;
+    };
+    status: {
+        code: string;
+        label: string;
+    };
+    created_at: string;
+};
+
 export interface BusinessOwnerObject {
     id: string;
     email: string;

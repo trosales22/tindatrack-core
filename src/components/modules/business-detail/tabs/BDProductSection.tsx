@@ -60,7 +60,6 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
         },
         onError: () => {}
     });
-
     
     const onEditProductHandler = (productId?: string | null) => {
         setSelectedProductId(productId)

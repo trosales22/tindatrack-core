@@ -6,74 +6,74 @@ import Layout from "components/layout/Layout";
 import BusinessCard from "components/BusinessCard";
 
 const BusinessDetailPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>()
-    const { data: response }: any = useShowBusinessByIdQuery({
-      businessId: id
-    })
-    const businessDetail = response?.data?.data?.attributes || null
-    const breadcrumbItems = [
-      { label: 'Businesses', href: '/' },
-      { label: businessDetail?.name, href: `/businesses/${id}` }
-    ];
+  const { id } = useParams<{ id: string }>()
+  const { data: response }: any = useShowBusinessByIdQuery({
+    businessId: id
+  })
+  const businessDetail = response?.data?.data?.attributes || null
+  const breadcrumbItems = [
+    { label: 'Businesses', href: '/' },
+    { label: businessDetail?.name, href: `/businesses/${id}` }
+  ];
 
-    const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
-    const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
-    const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
+  const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
+  const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
+  const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
 
-    const tabData = [
-      {
-        label: 'Dashboard',
-        content: (
-          <Suspense fallback={<div>Loading Dashboard...</div>}>
-            <BDDashboardSection businessId={id} />
-          </Suspense>
-        )
-      },
-      {
-        label: 'Products',
-        content: (
-          <Suspense fallback={<div>Loading Products...</div>}>
-            <BDProductSection businessId={id} />
-          </Suspense>
-        )
-      },
-      {
-        label: 'Sales History',
-        content: (
-          <Suspense fallback={<div>Loading Sales History...</div>}>
-            <BDSalesHistorySection businessId={id} />
-          </Suspense>
-        )
-      },
-      {
-        label: 'Inventory',
-        content: (
-          <Suspense fallback={<div>Loading Inventory...</div>}>
-            Test
-          </Suspense>
-        )
-      },
-      {
-        label: 'Investments',
-        content: (
-          <Suspense fallback={<div>Loading Investments...</div>}>
-            Test
-          </Suspense>
-        )
-      }
-    ];
+  const tabData = [
+    {
+      label: 'Dashboard',
+      content: (
+        <Suspense fallback={<div>Loading Dashboard...</div>}>
+          <BDDashboardSection businessId={id} />
+        </Suspense>
+      )
+    },
+    {
+      label: 'Products',
+      content: (
+        <Suspense fallback={<div>Loading Products...</div>}>
+          <BDProductSection businessId={id} />
+        </Suspense>
+      )
+    },
+    {
+      label: 'Sales History',
+      content: (
+        <Suspense fallback={<div>Loading Sales History...</div>}>
+          <BDSalesHistorySection businessId={id} />
+        </Suspense>
+      )
+    },
+    {
+      label: 'Inventory',
+      content: (
+        <Suspense fallback={<div>Loading Inventory...</div>}>
+          Test
+        </Suspense>
+      )
+    },
+    {
+      label: 'Investments',
+      content: (
+        <Suspense fallback={<div>Loading Investments...</div>}>
+          Test
+        </Suspense>
+      )
+    }
+  ];
 
-    return (
-      <Layout>
-        <Breadcrumbs items={breadcrumbItems} />
+  return (
+    <Layout>
+      <Breadcrumbs items={breadcrumbItems} />
 
-        <BusinessCard businessDetail={businessDetail} />
+      <BusinessCard businessId={id} businessDetail={businessDetail} />
 
-        <div className="mt-5">
-          <Tabs tabs={tabData} defaultIndex={0} withBorder={false} />
-        </div>
-      </Layout>
-    );
+      <div className="mt-5">
+        <Tabs tabs={tabData} defaultIndex={0} withBorder={false} />
+      </div>
+    </Layout>
+  );
 };
 
 export default BusinessDetailPage;
