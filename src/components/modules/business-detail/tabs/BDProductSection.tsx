@@ -13,13 +13,14 @@ import AddBusinessProductForm from "../forms/AddBusinessProductForm";
 import { useProductStore } from "stores/useProductStore";
 import EditBusinessProductForm from "../forms/EditBusinessProductForm";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from 'react-toastify';
+import { useToast } from "context/ToastContext";
 
 interface ProductSectionProps {
     businessId?: string;
 }
 
 const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
+    const { addToast } = useToast();
     const queryClient = useQueryClient()
     const { 
         openCreateBusinessProduct, 
@@ -49,7 +50,10 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
 
     const { mutate: deleteProduct, isPending: isDeleteProductLoading } = useDeleteBusinessProductMutation({
         onSuccess: () => {
-            toast.success("Deleted product successfully.");
+            addToast({
+                message: 'Deleted product successfully.',
+                type: 'success'
+            });
             queryClient.invalidateQueries({ queryKey: ['BUSINESS_PRODUCT_LIST', businessId] });
             setOpenDeleteBusinessProduct(false);
             setSelectedProductId(null)

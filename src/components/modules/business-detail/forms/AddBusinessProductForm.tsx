@@ -2,11 +2,11 @@ import { FC } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select, Button, CurrencyInput } from 'components/ui/components';
-import { toast } from 'react-toastify';
 import { useQueryClient } from "@tanstack/react-query";
 import { productCategoryOptions, statusTypeOptions } from "utils/businessData";
 import { BusinessProductFormData, businessProductSchema } from "schemas/businessProductSchema";
 import { useCreateBusinessProductMutation } from "hooks/business-product";
+import { useToast } from "context/ToastContext";
 
 interface AddBusinessProductFormProps {
     businessId?: string;
@@ -14,6 +14,7 @@ interface AddBusinessProductFormProps {
 }
 
 const AddBusinessProductForm: FC<AddBusinessProductFormProps> = ({ businessId, onClose }) => {
+    const { addToast } = useToast();
     const queryClient = useQueryClient();
 
     const {
@@ -27,7 +28,10 @@ const AddBusinessProductForm: FC<AddBusinessProductFormProps> = ({ businessId, o
 
     const { mutate: createProduct, isPending: isCreateProductLoading } = useCreateBusinessProductMutation({
         onSuccess: () => {
-            toast.success("Added product successfully.");
+            addToast({
+                message: 'Added product successfully.',
+                type: 'success'
+            });
             queryClient.invalidateQueries({ queryKey: ['BUSINESS_PRODUCT_LIST', businessId] });
             onClose();
             reset();

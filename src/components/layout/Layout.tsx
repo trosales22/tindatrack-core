@@ -3,7 +3,6 @@ import Navbar from "components/layout/Navbar";
 import Sidebar from "components/layout/Sidebar";
 import Wrapper from "../Wrapper";
 import { Button, Modal } from "components/ui/components";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "hooks/auth";
 import { useState } from "react";
@@ -11,12 +10,14 @@ import { ROLES } from "constants/roles";
 import AppLogo from '/images/app-logo.jpeg'
 import { useAuthData } from "hooks/useAuthData";
 import { useRemoveAuthField } from "hooks/useRemoveAuthField";
+import { useToast } from "context/ToastContext";
 
 interface LayoutProps {
     children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+    const { addToast } = useToast()
     const [openLogout, setOpenLogout] = useState(false);
     const navigate = useNavigate();
     const { role, firstname, lastname } = useAuthData();
@@ -25,7 +26,10 @@ const Layout = ({ children }: LayoutProps) => {
 
     const { mutate: logout, isPending: isLogoutLoading } = useLogoutMutation({
         onSuccess: () => {
-            toast.success("Successfully logged out.");
+            addToast({
+                message: 'Successfully logged out.',
+                type: 'info'
+            });
 
             removeAuthField('auth_status')
             removeAuthField('firstname')

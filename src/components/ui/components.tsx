@@ -13,6 +13,7 @@ import Table from "./Table"
 import Pagination from "./Pagination"
 import Tabs from "./Tabs"
 import FileInput from "./FileInput"
+import Toast from "./Toast"
 
 export {
     Dock,
@@ -27,5 +28,6 @@ export {
     Table,
     Pagination,
     Tabs,
-    FileInput
+    FileInput,
+    Toast
 }

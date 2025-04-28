@@ -2,11 +2,11 @@ import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select, Button, CurrencyInput } from 'components/ui/components';
-import { toast } from 'react-toastify';
 import { useQueryClient } from "@tanstack/react-query";
 import { productCategoryOptions, statusTypeOptions } from "utils/businessData";
 import { BusinessProductFormData, businessProductSchema } from "schemas/businessProductSchema";
 import { useShowBusinessProductByIdQuery, useUpdateBusinessProductMutation } from "hooks/business-product";
+import { useToast } from "context/ToastContext";
 
 interface EditBusinessProductFormProps {
     businessId?: string;
@@ -16,6 +16,7 @@ interface EditBusinessProductFormProps {
 
 const EditBusinessProductForm: FC<EditBusinessProductFormProps> = ({ businessId, productId, onClose }) => {
     const queryClient = useQueryClient();
+    const { addToast } = useToast();
 
     const {
         setValue,
@@ -44,7 +45,10 @@ const EditBusinessProductForm: FC<EditBusinessProductFormProps> = ({ businessId,
 
     const { mutate: updateProduct, isPending: isUpdateProductLoading } = useUpdateBusinessProductMutation({
         onSuccess: () => {
-            toast.success("Successfully updated product.");
+            addToast({
+                message: 'Successfully updated product.',
+                type: 'success'
+            });
             queryClient.invalidateQueries({ queryKey: ['BUSINESS_PRODUCT_LIST', businessId] });
             onClose();
             reset();

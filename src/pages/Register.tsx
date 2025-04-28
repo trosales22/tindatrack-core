@@ -4,12 +4,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { useRegisterBusinessAdminMutation } from "hooks/auth";
-import { toast } from 'react-toastify';
 import { UserFormData, userSchema } from "schemas/userSchema";
 import { useSetAuthField } from "hooks/useSetAuthField";
 import { useAuthData } from "hooks/useAuthData";
+import { useToast } from "context/ToastContext";
 
 const RegisterPage: React.FC = () => {
+    const { addToast } = useToast();
     const { setAuthField } = useSetAuthField()
     const { isAuthenticated } = useAuthData()
     const navigate = useNavigate();
@@ -36,8 +37,11 @@ const RegisterPage: React.FC = () => {
             setAuthField('role', res?.data?.details?.role)
             setAuthField('token', res?.data?.access_token.token)
 
-            toast.success("Successfully registered as business admin.");
-
+            addToast({
+                message: 'Successfully registered as business admin.',
+                type: 'success'
+            });
+            
             navigate('/')
         },
         onError: () => { }

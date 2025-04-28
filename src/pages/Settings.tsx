@@ -6,13 +6,14 @@ import { UserFormData, userSchema } from "schemas/userSchema";
 import { useEffect } from "react";
 import { useChangePasswordMutation, useMyProfileQuery, useUpdateMyProfileMutation } from "hooks/auth";
 import Button from "components/ui/Button";
-import { toast } from 'react-toastify';
 import { useQueryClient } from "@tanstack/react-query";
 import { UpdatePasswordFormData, updatePasswordSchema } from "schemas/updatePasswordSchema";
 import Layout from "components/layout/Layout";
 import { useSetAuthField } from "hooks/useSetAuthField";
+import { useToast } from "context/ToastContext";
 
 const SettingsPage: React.FC = () => {
+    const { addToast } = useToast();
     const { setAuthField } = useSetAuthField()
     const queryClient = useQueryClient()
     const {
@@ -49,7 +50,10 @@ const SettingsPage: React.FC = () => {
 
     const { mutate: updateMyProfile, isPending: isUpdateMyProfileLoading } = useUpdateMyProfileMutation({
         onSuccess: () => {
-            toast.info("Profile updated successfully.")
+            addToast({
+                message: 'Profile updated successfully.',
+                type: 'success'
+            });
 
             setAuthField("firstname", watch().firstname);
             setAuthField("lastname", watch().lastname);
@@ -62,7 +66,11 @@ const SettingsPage: React.FC = () => {
 
     const { mutate: changePassword, isPending: isChangePasswordLoading } = useChangePasswordMutation({
         onSuccess: () => {
-            toast.info("Password updated successfully.")
+            addToast({
+                message: 'Password updated successfully.',
+                type: 'success'
+            });
+
             updatePasswordReset()
         },
         onError: () => {}

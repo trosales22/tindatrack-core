@@ -1,11 +1,27 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { debounce, get } from 'lodash';
-import { toast } from 'react-toastify';
 import { useAuthData } from 'hooks/useAuthData';
 import { useRemoveAuthField } from 'hooks/useRemoveAuthField';
+import { useToast } from 'context/ToastContext';
 
-const debouncedToastInfo = debounce(toast.info, 250);
-const debouncedToastError = debounce(toast.error, 250);
+
+const debouncedToastInfo = debounce((message: string) => {
+  const { addToast } = useToast();
+
+  addToast({
+    message,
+    type: 'info',
+  });
+}, 250);
+
+const debouncedToastError = debounce((message: string) => {
+  const { addToast } = useToast();
+  
+  addToast({
+    message,
+    type: 'error',
+  });
+}, 250);
 
 // Set Base URL and Defaults
 axios.defaults.baseURL = import.meta.env.VITE_WS_BASE_URL;

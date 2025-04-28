@@ -3,16 +3,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input, Select, Button } from 'components/ui/components';
 import { businessSchema, BusinessFormData } from "schemas/businessSchema";
-import { toast } from 'react-toastify';
 import { useCreateBusinessMutation } from "hooks/business";
 import { useQueryClient } from "@tanstack/react-query";
 import { storeTypeOptions } from "utils/businessData";
+import { useToast } from "context/ToastContext";
 
 interface AddBusinessFormProps {
   onClose: () => void;
 }
 
 const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
+    const { addToast } = useToast();
     const queryClient = useQueryClient();
 
     const {
@@ -26,10 +27,14 @@ const AddBusinessForm: FC<AddBusinessFormProps> = ({ onClose }) => {
 
     const { mutate: createBusiness, isPending: isCreateBusinessLoading } = useCreateBusinessMutation({
         onSuccess: () => {
-        toast.success("Added business successfully.");
-        queryClient.invalidateQueries({ queryKey: ['BUSINESS_LIST'] });
-        onClose();
-        reset();
+            addToast({
+                message: 'Added business successfully.',
+                type: 'success'
+            });
+
+            queryClient.invalidateQueries({ queryKey: ['BUSINESS_LIST'] });
+            onClose();
+            reset();
         },
         onError: () => {}
     });
