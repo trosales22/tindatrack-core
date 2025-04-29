@@ -1,7 +1,6 @@
 import { UseQueryOptions } from '@tanstack/react-query';
 
-export type BusinessIdParams = string | null | undefined;
-export type ProductIdParams = string | null | undefined;
+export type IdParams = string | null | undefined;
 
 export interface BusinessProductPayload {
     name: string;

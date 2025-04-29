@@ -1,10 +1,11 @@
 import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import * as fns from 'endpoints/business';
+import { GeneralListParams } from 'types/business';
 import { removeEmpty } from 'utils';
 
 type BusinessListParams = {
-  params?: any;
+  params?: GeneralListParams;
   queryOptions?: UseQueryOptions;
 };
 
@@ -16,7 +17,7 @@ type BusinessShowParams = {
 export const useListBusinessQuery = ({ params, queryOptions }: BusinessListParams) => {
   return useQuery({
     queryKey: ['BUSINESS_LIST', removeEmpty(params)],
-    queryFn: () => fns.getBusinessList(params),
+    queryFn: () => fns.getBusinessList(removeEmpty(params)),
     ...queryOptions
   });
 };
