@@ -5,25 +5,26 @@ import Pagination from "components/ui/Pagination";
 import { debounce } from "lodash";
 import Wrapper from "components/Wrapper";
 import Button from "components/ui/Button";
+import { useListBusinessSalesQuery } from "hooks/business-sales";
+import { formatCurrency } from "utils";
+import { Pencil } from "lucide-react";
 
 interface SalesHistorySectionProps {
     businessId: string | undefined;
 }
 
 const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId }) => {
-    console.log(businessId) 
-    
-    const [search, setSearch] = useState("");
-    console.log(search)
+    const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(25);
     const handleSearchChange = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value)
     }, 300);
 
-    const isLoading = false
-    const isError= false
-    const response: any = []
+    const { data: response, isLoading, isError }: any = useListBusinessSalesQuery({
+        businessId,
+        params: { q: search, page: currentPage, limit: itemsPerPage }
+    });
     const list = response?.data?.data || []; 
     const totalItems = response?.data?.meta?.pagination?.total || 0; 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
@@ -60,7 +61,7 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
             {!isLoading && !isError && (
                 <>
                 <Table
-                    headers={["Ref #", "Date/Time", "Item Sold", "Quantity", "Unit Price", "Total Amount", "Customer Name", "Notes/Remarks"]}
+                    headers={["Date/Time", "Product", "Cost Price", "Quantity", "Total Amount", "Customer Name", "Notes/Remarks", "Actions"]}
                     headerColor="bg-[#0B1F3A]"
                     borderColor="border-gray-300"
                     bordered
@@ -70,13 +71,22 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
                     {list.map((item: any) => {
                         return (
                         <tr key={item.id}>
-                           <td className="font-medium">{item?.attributes?.refno || 'N/A'}</td>
-                            <td className="font-medium">
-                                {`${item?.attributes?.vehicle?.label}`} <code>({item?.attributes?.vehicle?.plate_number})</code>
+                            <td className="font-medium">{item?.attributes?.created_at}</td>
+                            <td className="font-medium">{item?.attributes?.product?.name} <b>({item?.attributes?.product?.category?.label})</b></td>
+                            <td className="font-medium">{formatCurrency(item?.attributes?.cost_price || 0)}</td>
+                            <td className="font-medium">{item?.attributes?.quantity || 0}</td>
+                            <td className="font-medium">{formatCurrency(item?.attributes?.total_amount || 0)}</td>
+                            <td className="font-medium">{item?.attributes?.customer_name}</td>
+                            <td className="font-medium">{item?.attributes?.remarks}</td>
+                            <td>
+                                <Button
+                                    variant="ghost"
+                                    className="btn-sm text-orange-500 hover:bg-orange-100"
+                                    tooltip="Edit"
+                                >
+                                    <Pencil className="w-4 h-4" />
+                                </Button>
                             </td>
-                            <td className="font-medium">{item?.attributes?.entry_time || 'N/A'}</td>
-                            <td className="font-medium">{item?.attributes?.exit_time || 'N/A'}</td>
-                            <td className="font-medium">{`${item?.attributes?.recorded_by?.firstname} ${item?.attributes?.recorded_by?.lastname}`}</td>
                         </tr>)
                     })}
                 </Table>

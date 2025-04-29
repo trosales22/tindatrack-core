@@ -15,6 +15,18 @@ export interface ProductInventoryPayload {
     quantity?: number;
 }
 
+export interface CreateBusinessSalesPayload {
+    product_id: string;
+    quantity?: number;
+    customer_name?: string;
+    remarks?: string;
+}
+
+export interface UpdateBusinessSalesPayload {
+    customer_name?: string;
+    remarks?: string;
+}
+
 export type BusinessProductListParams = {
     params?: {
         q?: string,
@@ -28,5 +40,11 @@ export type BusinessProductListParams = {
 export type BusinessProductShowParams = {
     businessId?: string | null;
     productId?: string | null;
+    queryOptions?: UseQueryOptions;
+};
+
+export type BusinessSalesShowParams = {
+    businessId?: string | null;
+    salesId?: string | null;
     queryOptions?: UseQueryOptions;
 };

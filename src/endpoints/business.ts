@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BusinessListParams, BusinessPayload } from 'types/business';
-import { BusinessIdParams, BusinessProductPayload, ProductIdParams, ProductInventoryPayload } from 'types/businessProduct';
+import { BusinessIdParams, BusinessProductPayload, CreateBusinessSalesPayload, ProductIdParams, ProductInventoryPayload, UpdateBusinessSalesPayload } from 'types/businessProduct';
 
 export const getBusinessList = (params: BusinessListParams) => axios.get('/api/v1/core/businesses', {
     params: params
@@ -29,3 +29,14 @@ export const deleteBusinessProduct = (businessId: BusinessIdParams, productId: P
 
 //inventory
 export const manageProductInventory = (businessId: BusinessIdParams, productId: ProductIdParams, payload: ProductInventoryPayload) => axios.post(`/api/v1/core/businesses/${businessId}/products/${productId}/inventory/manage`, payload);
+
+//sales
+export const getBusinessSalesList = (businessId: BusinessIdParams, params: BusinessListParams) => axios.get(`/api/v1/core/businesses/${businessId}/sales`, {
+    params: params
+});
+
+export const getBusinessSalesById = (businessId: BusinessIdParams, salesId: ProductIdParams) => axios.get(`/api/v1/core/businesses/${businessId}/sales/${salesId}`);
+
+export const createBusinessSales = (businessId: BusinessIdParams, payload: CreateBusinessSalesPayload[]) => axios.post(`/api/v1/core/businesses/${businessId}/sales`, payload);
+
+export const updateBusinessSales = (businessId: BusinessIdParams, salesId: ProductIdParams, payload: UpdateBusinessSalesPayload) => axios.put(`/api/v1/core/businesses/${businessId}/sales/${salesId}`, payload);
