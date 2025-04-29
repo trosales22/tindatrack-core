@@ -11,6 +11,9 @@ export interface BusinessProductPayload {
     status?: string;
 }
 
+export interface ProductInventoryPayload {
+    quantity?: number;
+}
 
 export type BusinessProductListParams = {
     params?: {

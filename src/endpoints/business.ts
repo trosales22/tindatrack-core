@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BusinessListParams, BusinessPayload } from 'types/business';
-import { BusinessIdParams, BusinessProductPayload, ProductIdParams } from 'types/businessProduct';
+import { BusinessIdParams, BusinessProductPayload, ProductIdParams, ProductInventoryPayload } from 'types/businessProduct';
 
 export const getBusinessList = (params: BusinessListParams) => axios.get('/api/v1/core/businesses', {
     params: params
@@ -26,3 +26,6 @@ export const createBusinessProduct = (businessId: BusinessIdParams, payload: Bus
 export const updateBusinessProduct = (businessId: BusinessIdParams, productId: ProductIdParams, payload: BusinessProductPayload) => axios.put(`/api/v1/core/businesses/${businessId}/products/${productId}`, payload);
 
 export const deleteBusinessProduct = (businessId: BusinessIdParams, productId: ProductIdParams) => axios.delete(`/api/v1/core/businesses/${businessId}/products/${productId}`);
+
+//inventory
+export const manageProductInventory = (businessId: BusinessIdParams, productId: ProductIdParams, payload: ProductInventoryPayload) => axios.post(`/api/v1/core/businesses/${businessId}/products/${productId}/inventory/manage`, payload);

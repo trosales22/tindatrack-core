@@ -122,7 +122,7 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
             {!isLoading && !isError && (
                 <>
                 <Table
-                    headers={["Product Name", "Category", "Unit Price", "Cost Price", "Status", "Date Created", "Actions"]}
+                    headers={["Product Name", "Category", "Unit Price", "Cost Price", "Stock", "Status", "Date Created", "Actions"]}
                     headerColor="bg-[#0B1F3A]"
                     borderColor="border-gray-300"
                     bordered
@@ -136,6 +136,7 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
                             <td className="font-medium">{item?.attributes?.category?.label}</td>
                             <td className="font-medium">{formatCurrency(item?.attributes?.unit_price || 0.0)}</td>
                             <td className="font-medium">{formatCurrency(item?.attributes?.cost_price || 0.0)}</td>
+                            <td className="font-medium">{item?.attributes?.inventory?.stock || 0}</td>
                             <td className="font-medium">{item?.attributes?.status?.label}</td>
                             <td className="font-medium">{item?.attributes?.created_at}</td>
                             <td>

@@ -46,3 +46,12 @@ export const useDeleteBusinessProductMutation = (mutationOptions?: UseMutationOp
     ...mutationOptions
   });
 };
+
+//inventory
+export const useManageProductInventoryMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+  return useMutation({
+    mutationKey: ['MANAGE_BUSINESS_PRODUCT_INVENTORY'],
+    mutationFn: ({ businessId, productId, payload }) => fns.manageProductInventory(businessId, productId, payload),
+    ...mutationOptions
+  });
+};

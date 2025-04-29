@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 type BreadcrumbItem = {
   label: string;
@@ -16,7 +17,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
         {items.map((item, index) => (
           <li key={index}>
             {item.href ? (
-              <a href={item.href} className="text-black hover:underline">{item.label}</a>
+              <Link to={item.href} className="text-black hover:underline">{item.label}</Link>
             ) : (
               <span>{item.label}</span>
             )}
