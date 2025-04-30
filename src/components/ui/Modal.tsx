@@ -92,7 +92,9 @@ const Modal: React.FC<ModalProps> = ({
         </button>
         
         {title && <h3 className={`font-bold text-lg ${headerColors[headerColor]}`}>{title}</h3>}
-        <div className="py-4">{children}</div>
+        <div className="overflow-y-auto max-h-[60vh] sm:max-h-[70vh] py-2">
+          {children}
+        </div>
       </div>
     </dialog>
   );
