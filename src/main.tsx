@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client';
 import 'config/webService';
 import App from './App.tsx';
 import { BrowserRouter } from 'react-router-dom';
+import './utils/chartConfig';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastProvider } from 'context/ToastContext.tsx';
 

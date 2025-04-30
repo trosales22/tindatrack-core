@@ -14,6 +14,7 @@ import FileInput from './FileInput';
 import Toast from './Toast';
 import Card from './Card';
 import ChartCard from './ChartCard';
+import StatCard from './StatCard';
 
 export {
   Dock,
@@ -32,4 +33,5 @@ export {
   Toast,
   Card,
   ChartCard,
+  StatCard,
 };
