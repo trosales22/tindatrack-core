@@ -24,12 +24,12 @@ const Table: FC<TableProps> = ({
   return (
     <div
       className={`${bordered ? `border ${borderColor}` : ''} ${
-        rounded ? 'rounded-t-xl' : ''
+        rounded ? 'rounded-xl' : ''
       } bg-base-100 ${className}`}
     >
-      <div className="overflow-x-auto">
-        <table className={`table w-full ${rounded ? 'rounded-t-xl' : ''}`}>
-          <thead className={`${headerColor} ${rounded ? 'rounded-t-xl' : ''} ${headerTextColor}`}>
+      <div className="overflow-x-auto max-w-full">
+        <table className={`table w-full ${rounded ? 'rounded-xl' : ''}`}>
+          <thead className={`${headerColor} ${headerTextColor}`}>
             <tr>
               {headers.map((header, index) => (
                 <th key={index}>{header}</th>

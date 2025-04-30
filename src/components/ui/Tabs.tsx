@@ -35,7 +35,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
 
       {/* Scrollable content area */}
       <div
-        className={`flex-1 min-h-0 overflow-auto ${
+        className={`flex-1 overflow-auto ${
           withBorder ? 'border border-t-0 border-gray-300' : ''
         } rounded-b-md bg-white p-4`}
       >
