@@ -54,7 +54,7 @@ const SummaryReportPage = () => {
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold">Summary Report</h1>
+      <h1 className="text-xl sm:text-2xl font-semibold">Summary Report</h1>
 
       <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
         {filteredStats.map((stat, index) => (
