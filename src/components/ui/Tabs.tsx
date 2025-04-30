@@ -15,27 +15,29 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
   const [activeIndex, setActiveIndex] = useState(defaultIndex);
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-col h-full min-h-0">
+      {/* Tab headers with horizontal scroll on mobile */}
+      <div className="flex overflow-x-auto border-b border-gray-300 no-scrollbar space-x-4 px-2">
         {tabs.map((tab, idx) => (
-          <button
+          <div
             key={idx}
             onClick={() => setActiveIndex(idx)}
-            className={`px-4 py-2 rounded-md transition-colors duration-200 text-sm sm:text-base cursor-pointer ${
+            className={`px-4 py-2 -mb-px text-sm sm:text-base font-medium cursor-pointer whitespace-nowrap transition-all duration-200 border-b-2 ${
               idx === activeIndex
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-600 hover:text-blue-500'
             }`}
           >
             {tab.label}
-          </button>
+          </div>
         ))}
       </div>
 
+      {/* Scrollable content area */}
       <div
-        className={`w-full flex-1 ${
-          withBorder ? 'border border-dashed border-gray-400' : ''
-        } rounded-md bg-white overflow-auto p-2`}
+        className={`flex-1 min-h-0 overflow-auto ${
+          withBorder ? 'border border-t-0 border-gray-300' : ''
+        } rounded-b-md bg-white p-4`}
       >
         {tabs[activeIndex].content}
       </div>
