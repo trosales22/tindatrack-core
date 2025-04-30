@@ -47,3 +47,32 @@ export type BusinessSalesShowParams = {
     salesId?: string | null;
     queryOptions?: UseQueryOptions;
 };
+
+export interface BusinessObject {
+    id: string;
+    name: string;
+    type: string;
+}
+
+export interface BusinessProductAttributes {
+    name: string;
+    category: {
+        code: string;
+        label: string;
+    };
+    unit_price: number;
+    cost_price: number;
+    status: {
+        code: 'active' | 'inactive';
+        label: string;
+    };
+    business: BusinessObject;
+    created_at: string;
+    updated_at?: string;
+}
+
+export interface BusinessProduct {
+    id: string;
+    type: string;
+    attributes: BusinessProductAttributes;
+}

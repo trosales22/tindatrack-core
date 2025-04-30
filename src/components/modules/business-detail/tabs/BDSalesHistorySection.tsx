@@ -8,12 +8,16 @@ import Button from "components/ui/Button";
 import { useListBusinessSalesQuery } from "hooks/business-sales";
 import { formatCurrency } from "utils";
 import { Pencil } from "lucide-react";
+import { useSalesStore } from "stores/useSalesStore";
+import Modal from "components/ui/Modal";
+import AddBusinessSalesForm from "../forms/AddBusinessSalesForm";
 
 interface SalesHistorySectionProps {
     businessId: string | undefined;
 }
 
 const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId }) => {
+    const { openCreateBusinessSales, setOpenCreateBusinessSales } = useSalesStore()
     const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(25);
@@ -40,7 +44,7 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
                 />
 
                 <div className="flex sm:justify-end">
-                    <Button variant="primary" className="px-4 py-2">+ Add Sales</Button>
+                    <Button variant="primary" className="px-4 py-2" onClick={() => setOpenCreateBusinessSales(true)}>+ Add Sales</Button>
                 </div>
             </div>
 
@@ -102,6 +106,23 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
                 />
                 </>
             )}
+
+            <Modal
+                id="add-business-sales-modal"
+                title="Add Sales"
+                closeOnBackdrop
+                isOpen={openCreateBusinessSales}
+                size="lg"
+                onClose={() => setOpenCreateBusinessSales(false)}
+                headerColor="blue"
+            >
+            {openCreateBusinessSales && (
+                <AddBusinessSalesForm 
+                    businessId={businessId}
+                    onClose={() => setOpenCreateBusinessSales(false)} 
+                />
+            )}
+            </Modal>
         </Wrapper>
     );
 };

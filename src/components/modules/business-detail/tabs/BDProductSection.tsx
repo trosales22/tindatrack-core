@@ -186,7 +186,6 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
             <Modal
                 id="add-product-modal"
                 title="Add Product"
-                closeButton
                 closeOnBackdrop
                 isOpen={openCreateBusinessProduct}
                 size="md"
@@ -204,7 +203,6 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
             <Modal
                 id="edit-product-modal"
                 title="Edit Product"
-                closeButton
                 closeOnBackdrop
                 isOpen={openEditBusinessProduct}
                 size="md"
@@ -223,7 +221,6 @@ const BDProductSection: React.FC<ProductSectionProps> = ({ businessId }) => {
             <Modal
                 id="manage-inventory-modal"
                 title="Manage Inventory"
-                closeButton
                 closeOnBackdrop
                 isOpen={openManageProductInventory}
                 size="md"

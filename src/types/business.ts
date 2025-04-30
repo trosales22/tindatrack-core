@@ -53,3 +53,11 @@ export interface GeneralListParams {
     page?: number;
     limit?: number;
 }
+
+
+export type SaleItem = {
+    product_id: string;
+    quantity: number;
+    customer_name: string;
+    remarks: string;
+};

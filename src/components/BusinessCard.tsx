@@ -79,7 +79,6 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ businessId, businessDetail 
     <Modal
       id="edit-business-modal"
       title="Edit Business"
-      closeButton
       closeOnBackdrop
       isOpen={openEditBusiness}
       size="sm"

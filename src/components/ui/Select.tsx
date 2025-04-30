@@ -36,6 +36,10 @@ const Select: FC<SelectProps> = ({
             defaultValue={defaultValue}
             {...props}
           >
+            {/* Placeholder option */}
+            <option value="" disabled>
+              Select
+            </option>
             {options.map((option, index) => (
               <option key={index} value={option.value} disabled={option.disabled}>
                 {option.label}
@@ -51,6 +55,10 @@ const Select: FC<SelectProps> = ({
             defaultValue={defaultValue}
             {...props}
           >
+            {/* Placeholder option */}
+            <option value="" disabled>
+              Select
+            </option>
             {options.map((option, index) => (
               <option key={index} value={option.value} disabled={option.disabled}>
                 {option.label}
@@ -63,5 +71,6 @@ const Select: FC<SelectProps> = ({
     </fieldset>
   );
 };
+
 
 export default Select;

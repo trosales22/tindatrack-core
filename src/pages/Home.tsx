@@ -114,7 +114,6 @@ const HomePage: React.FC = () => {
       <Modal
         id="add-business-modal"
         title="Add Business"
-        closeButton
         closeOnBackdrop
         isOpen={openCreateBusiness}
         size="sm"
