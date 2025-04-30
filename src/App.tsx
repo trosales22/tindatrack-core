@@ -10,29 +10,28 @@ import { ROLES } from "constants/roles";
 import RegisterPage from "pages/Register";
 import SummaryReportPage from "pages/SummaryReport";
 import SettingsPage from "pages/Settings";
-import { ToastProvider } from "context/ToastContext";
 import Toast from "components/ui/Toast";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <Wrapper>
-      <ToastProvider>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
-          <Route element={<ProtectedRoute allowedRoles={[ROLES.BUSINESS_ADMIN]} />}>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/businesses/:id" element={<BusinessDetailPage />} />
-            <Route path="/summary-report" element={<SummaryReportPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-          </Route>
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Route element={<ProtectedRoute allowedRoles={[ROLES.BUSINESS_ADMIN]} />}>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/businesses/:id" element={<BusinessDetailPage />} />
+          <Route path="/summary-report" element={<SummaryReportPage />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
+        
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
-        <Toast />
-      </ToastProvider>
+      <Toast />
+      <Toaster />
     </Wrapper>
   )
 }

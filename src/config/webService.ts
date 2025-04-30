@@ -1,27 +1,8 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { debounce, get } from 'lodash';
+import { get } from 'lodash';
 import { useAuthData } from 'hooks/useAuthData';
 import { useRemoveAuthField } from 'hooks/useRemoveAuthField';
-import { useToast } from 'context/ToastContext';
-
-
-const debouncedToastInfo = debounce((message: string) => {
-  const { addToast } = useToast();
-
-  addToast({
-    message,
-    type: 'info',
-  });
-}, 250);
-
-const debouncedToastError = debounce((message: string) => {
-  const { addToast } = useToast();
-  
-  addToast({
-    message,
-    type: 'error',
-  });
-}, 250);
+import { useDebouncedToast } from 'hooks/useDebounceToast';
 
 // Set Base URL and Defaults
 axios.defaults.baseURL = import.meta.env.VITE_WS_BASE_URL;
@@ -43,6 +24,8 @@ axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
+    const { debouncedToastInfo, debouncedToastError } = useDebouncedToast()
+    
     const { removeAuthField } = useRemoveAuthField()
     const errorMessage: any = get(error, 'response.data.errors[0].message') || get(error, 'response.data.message');
     const errorCode = error?.response?.status;
