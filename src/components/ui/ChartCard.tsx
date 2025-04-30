@@ -10,19 +10,15 @@ interface ChartCardProps {
 }
 
 const ChartCard: FC<ChartCardProps> = ({ title, type, data, options }) => {
-  // Ensure horizontal bar uses correct axis setting
   const barOptions =
     type === 'horizontalBar' ? { indexAxis: 'y', barThickness: 20, ...options } : options;
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg h-[400px] flex flex-col">
-      <h2 className="text-xl font-semibold mb-2">{title}</h2>
-      <div className="flex-grow">
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg h-[300px] sm:h-[400px] flex flex-col">
+      <h2 className="text-base sm:text-xl font-semibold mb-2">{title}</h2>
+      <div className="flex-grow w-full min-h-0">
         {type === 'line' && (
-          <Line
-            data={data}
-            options={{ ...options, barThickness: 20, maintainAspectRatio: false }}
-          />
+          <Line data={data} options={{ ...options, maintainAspectRatio: false }} />
         )}
         {type === 'bar' && (
           <Bar data={data} options={{ ...options, barThickness: 20, maintainAspectRatio: false }} />
