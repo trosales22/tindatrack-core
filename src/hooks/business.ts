@@ -18,39 +18,44 @@ export const useListBusinessQuery = ({ params, queryOptions }: BusinessListParam
   return useQuery({
     queryKey: ['BUSINESS_LIST', removeEmpty(params)],
     queryFn: () => fns.getBusinessList(removeEmpty(params)),
-    ...queryOptions
+    ...queryOptions,
   });
 };
 
-export const useShowBusinessByIdQuery = ({businessId, queryOptions}: BusinessShowParams) => {
+export const useShowBusinessByIdQuery = ({ businessId, queryOptions }: BusinessShowParams) => {
   return useQuery({
     queryKey: ['BUSINESS_SHOW', businessId],
     queryFn: () => fns.getBusinessById(businessId),
-    ...queryOptions
+    ...queryOptions,
   });
 };
 
-export const useCreateBusinessMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+export const useCreateBusinessMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_CREATE'],
-    mutationFn: (payload: any) => fns.createBusiness(payload),
-    ...mutationOptions
+    mutationFn: (payload) => fns.createBusiness(payload),
+    ...mutationOptions,
   });
 };
 
-export const useUpdateBusinessMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, string, any>) => {
+export const useUpdateBusinessMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, string, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_UPDATE'],
-    mutationFn: ({ businessId, payload }) =>
-      fns.updateBusiness(businessId, payload),
-    ...mutationOptions
+    mutationFn: ({ businessId, payload }) => fns.updateBusiness(businessId, payload),
+    ...mutationOptions,
   });
 };
 
-export const useDeleteBusinessMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+export const useDeleteBusinessMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_DELETE'],
     mutationFn: (businessId: string | undefined) => fns.deleteBusiness(businessId),
-    ...mutationOptions
+    ...mutationOptions,
   });
 };

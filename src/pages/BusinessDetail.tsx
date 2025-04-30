@@ -1,25 +1,31 @@
-import React, { lazy, Suspense } from "react";
-import { useParams } from "react-router-dom";
-import { Breadcrumbs, Tabs } from "components/ui/components";
-import { useShowBusinessByIdQuery } from "hooks/business";
-import Layout from "components/layout/Layout";
-import BusinessCard from "components/BusinessCard";
+import React, { lazy, Suspense } from 'react';
+import { useParams } from 'react-router-dom';
+import { Breadcrumbs, Tabs } from 'components/ui/components';
+import { useShowBusinessByIdQuery } from 'hooks/business';
+import Layout from 'components/layout/Layout';
+import BusinessCard from 'components/BusinessCard';
 
 const BusinessDetailPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useParams<{ id: string }>();
   const { data: response }: any = useShowBusinessByIdQuery({
-    businessId: id
-  })
-  const businessDetail = response?.data?.data?.attributes || null
+    businessId: id,
+  });
+  const businessDetail = response?.data?.data?.attributes || null;
   const breadcrumbItems = [
     { label: 'Businesses', href: '/' },
-    { label: businessDetail?.name, href: `/businesses/${id}` }
+    { label: businessDetail?.name, href: `/businesses/${id}` },
   ];
 
-  const BDDashboardSection = lazy(() => import('components/modules/business-detail/tabs/BDDashboardSection'));
-  const BDProductSection = lazy(() => import('components/modules/business-detail/tabs/BDProductSection'));
-  const BDSalesHistorySection = lazy(() => import('components/modules/business-detail/tabs/BDSalesHistorySection'));
-  
+  const BDDashboardSection = lazy(
+    () => import('components/modules/business-detail/tabs/BDDashboardSection'),
+  );
+  const BDProductSection = lazy(
+    () => import('components/modules/business-detail/tabs/BDProductSection'),
+  );
+  const BDSalesHistorySection = lazy(
+    () => import('components/modules/business-detail/tabs/BDSalesHistorySection'),
+  );
+
   const tabData = [
     {
       label: 'Dashboard',
@@ -27,7 +33,7 @@ const BusinessDetailPage: React.FC = () => {
         <Suspense fallback={<div>Loading Dashboard...</div>}>
           <BDDashboardSection businessId={id} />
         </Suspense>
-      )
+      ),
     },
     {
       label: 'Products',
@@ -35,7 +41,7 @@ const BusinessDetailPage: React.FC = () => {
         <Suspense fallback={<div>Loading Products...</div>}>
           <BDProductSection businessId={id} />
         </Suspense>
-      )
+      ),
     },
     {
       label: 'Sales History',
@@ -43,8 +49,8 @@ const BusinessDetailPage: React.FC = () => {
         <Suspense fallback={<div>Loading Sales History...</div>}>
           <BDSalesHistorySection businessId={id} />
         </Suspense>
-      )
-    }
+      ),
+    },
   ];
 
   return (

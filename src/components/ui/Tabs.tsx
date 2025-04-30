@@ -31,7 +31,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
           </button>
         ))}
       </div>
-      
+
       <div
         className={`w-full flex-1 ${
           withBorder ? 'border border-dashed border-gray-400' : ''

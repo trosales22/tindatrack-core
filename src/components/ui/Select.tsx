@@ -1,4 +1,4 @@
-import { FC, SelectHTMLAttributes } from "react";
+import { FC, SelectHTMLAttributes } from 'react';
 
 interface Option {
   value: string;
@@ -18,11 +18,11 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 const Select: FC<SelectProps> = ({
   options,
-  className = "",
+  className = '',
   legend,
   helperText,
   helperColor = '',
-  defaultValue = "",
+  defaultValue = '',
   inlineLegend = false,
   ...props
 }) => {
@@ -31,11 +31,7 @@ const Select: FC<SelectProps> = ({
       {inlineLegend ? (
         <div className="flex items-center gap-2">
           {legend && <label className="ml-2 text-sm font-medium">{legend}</label>}
-          <select
-            className={`select ${className}`}
-            defaultValue={defaultValue}
-            {...props}
-          >
+          <select className={`select ${className}`} defaultValue={defaultValue} {...props}>
             {/* Placeholder option */}
             <option value="" disabled>
               Select
@@ -50,11 +46,7 @@ const Select: FC<SelectProps> = ({
       ) : (
         <>
           {legend && <legend className="fieldset-legend">{legend}</legend>}
-          <select
-            className={`select ${className}`}
-            defaultValue={defaultValue}
-            {...props}
-          >
+          <select className={`select ${className}`} defaultValue={defaultValue} {...props}>
             {/* Placeholder option */}
             <option value="" disabled>
               Select
@@ -71,6 +63,5 @@ const Select: FC<SelectProps> = ({
     </fieldset>
   );
 };
-
 
 export default Select;

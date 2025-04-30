@@ -16,7 +16,7 @@ axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
+
   return config;
 });
 
@@ -24,10 +24,11 @@ axios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
-    const { debouncedToastInfo, debouncedToastError } = useDebouncedToast()
-    
-    const { removeAuthField } = useRemoveAuthField()
-    const errorMessage: any = get(error, 'response.data.errors[0].message') || get(error, 'response.data.message');
+    const { debouncedToastInfo, debouncedToastError } = useDebouncedToast();
+
+    const { removeAuthField } = useRemoveAuthField();
+    const errorMessage: any =
+      get(error, 'response.data.errors[0].message') || get(error, 'response.data.message');
     const errorCode = error?.response?.status;
 
     if (['Token expired.', 'Token has expired.'].includes(errorMessage)) {
@@ -56,5 +57,5 @@ axios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

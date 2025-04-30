@@ -4,54 +4,71 @@ import * as fns from 'endpoints/business';
 import { BusinessProductListParams, BusinessProductShowParams } from 'types/businessProduct';
 import { removeEmpty } from 'utils';
 
-export const useListBusinessProductQuery = ({ params, businessId, queryOptions }: BusinessProductListParams) => {
+export const useListBusinessProductQuery = ({
+  params,
+  businessId,
+  queryOptions,
+}: BusinessProductListParams) => {
   return useQuery({
     queryKey: ['BUSINESS_PRODUCT_LIST', businessId, removeEmpty(params)],
     queryFn: () => fns.getBusinessProductList(businessId, removeEmpty(params)),
     retry: false,
-    ...queryOptions
+    ...queryOptions,
   });
 };
 
-export const useShowBusinessProductByIdQuery = ({businessId, productId, queryOptions}: BusinessProductShowParams) => {
+export const useShowBusinessProductByIdQuery = ({
+  businessId,
+  productId,
+  queryOptions,
+}: BusinessProductShowParams) => {
   return useQuery({
     queryKey: ['BUSINESS_PRODUCT_SHOW', businessId, productId],
     queryFn: () => fns.getBusinessProductById(businessId, productId),
     retry: false,
-    ...queryOptions
+    ...queryOptions,
   });
 };
 
-export const useCreateBusinessProductMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+export const useCreateBusinessProductMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_PRODUCT_CREATE'],
     mutationFn: ({ businessId, payload }) => fns.createBusinessProduct(businessId, payload),
-    ...mutationOptions
+    ...mutationOptions,
   });
 };
 
-export const useUpdateBusinessProductMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, string, any>) => {
+export const useUpdateBusinessProductMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, string, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_PRODUCT_UPDATE'],
     mutationFn: ({ businessId, productId, payload }) =>
       fns.updateBusinessProduct(businessId, productId, payload),
-    ...mutationOptions
+    ...mutationOptions,
   });
 };
 
-export const useDeleteBusinessProductMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+export const useDeleteBusinessProductMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>,
+) => {
   return useMutation({
     mutationKey: ['BUSINESS_PRODUCT_DELETE'],
     mutationFn: ({ businessId, productId }) => fns.deleteBusinessProduct(businessId, productId),
-    ...mutationOptions
+    ...mutationOptions,
   });
 };
 
 //inventory
-export const useManageProductInventoryMutation = (mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>) => {
+export const useManageProductInventoryMutation = (
+  mutationOptions?: UseMutationOptions<AxiosResponse<any>, unknown, any>,
+) => {
   return useMutation({
     mutationKey: ['MANAGE_BUSINESS_PRODUCT_INVENTORY'],
-    mutationFn: ({ businessId, productId, payload }) => fns.manageProductInventory(businessId, productId, payload),
-    ...mutationOptions
+    mutationFn: ({ businessId, productId, payload }) =>
+      fns.manageProductInventory(businessId, productId, payload),
+    ...mutationOptions,
   });
 };

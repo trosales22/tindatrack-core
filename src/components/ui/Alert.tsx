@@ -8,13 +8,13 @@ interface AlertProps {
 }
 
 const alertTypes: Record<string, string> = {
-  info: "alert-info",
-  success: "alert-success",
-  warning: "alert-warning",
-  error: "alert-error"
+  info: 'alert-info',
+  success: 'alert-success',
+  warning: 'alert-warning',
+  error: 'alert-error',
 };
 
-const Alert: React.FC<AlertProps> = ({ type = 'info', message, icon, isAlertSoft=true }) => {
+const Alert: React.FC<AlertProps> = ({ type = 'info', message, icon, isAlertSoft = true }) => {
   return (
     <div role="alert" className={`alert ${alertTypes[type]} ${isAlertSoft && `alert-soft`}`}>
       {icon}

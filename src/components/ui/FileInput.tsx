@@ -19,8 +19,8 @@ const FileInput: FC<FileInputProps> = ({
   className,
 }) => {
   const [uploading, setUploading] = useState(false);
-  const cloudName = cloudinaryConfig.cloudName
-  const uploadPreset = cloudinaryConfig.uploadPreset
+  const cloudName = cloudinaryConfig.cloudName;
+  const uploadPreset = cloudinaryConfig.uploadPreset;
 
   const handleUpload = async (files: FileList | null) => {
     if (!files) return;

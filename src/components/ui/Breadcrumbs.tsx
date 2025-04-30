@@ -17,7 +17,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ items }) => {
         {items.map((item, index) => (
           <li key={index}>
             {item.href ? (
-              <Link to={item.href} className="text-black hover:underline">{item.label}</Link>
+              <Link to={item.href} className="text-black hover:underline">
+                {item.label}
+              </Link>
             ) : (
               <span>{item.label}</span>
             )}

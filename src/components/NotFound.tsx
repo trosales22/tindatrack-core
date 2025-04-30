@@ -1,6 +1,6 @@
-import React from "react";
-import { AlertTriangle } from "lucide-react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { AlertTriangle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => {
   return (
@@ -11,10 +11,7 @@ const NotFound: React.FC = () => {
       <p className="text-base-content mb-8 max-w-md">
         Oops! The page you're looking for doesn't exist or has been moved.
       </p>
-      <Link
-        to="/"
-        className="btn btn-primary text-white rounded-full px-6 py-2"
-      >
+      <Link to="/" className="btn btn-primary text-white rounded-full px-6 py-2">
         Go Back Home
       </Link>
     </div>

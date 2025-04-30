@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { ArrowRight, Search } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import Button from "components/ui/Button";
-import Input from "components/ui/Input";
-import { debounce } from "lodash";
-import { useListBusinessQuery } from "hooks/business";
-import { Business } from "types/business";
-import Pagination from "components/ui/Pagination";
-import Modal from "components/ui/Modal";
-import { useModalStore } from "stores/useModalStore";
-import AddBusinessForm from "../components/modules/business/forms/AddBusinessForm";
-import Layout from "components/layout/Layout";
+import React, { useState } from 'react';
+import { ArrowRight, Search } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Button from 'components/ui/Button';
+import Input from 'components/ui/Input';
+import { debounce } from 'lodash';
+import { useListBusinessQuery } from 'hooks/business';
+import { Business } from 'types/business';
+import Pagination from 'components/ui/Pagination';
+import Modal from 'components/ui/Modal';
+import { useModalStore } from 'stores/useModalStore';
+import AddBusinessForm from '../components/modules/business/forms/AddBusinessForm';
+import Layout from 'components/layout/Layout';
 
 const HomePage: React.FC = () => {
-  const { openCreateBusiness, setOpenCreateBusiness } = useModalStore()
-  const [search, setSearch] = useState("");
+  const { openCreateBusiness, setOpenCreateBusiness } = useModalStore();
+  const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(25);
   const navigate = useNavigate();
@@ -24,8 +24,12 @@ const HomePage: React.FC = () => {
     setCurrentPage(1);
   }, 300);
 
-  const { data: response, isLoading, isError }: any = useListBusinessQuery({
-    params: { q: search, page: currentPage, limit: itemsPerPage }
+  const {
+    data: response,
+    isLoading,
+    isError,
+  }: any = useListBusinessQuery({
+    params: { q: search, page: currentPage, limit: itemsPerPage },
   });
 
   const businesses: Business[] = response?.data?.data || [];
@@ -54,9 +58,7 @@ const HomePage: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        {isLoading && (
-          <div className="text-center text-gray-500 py-10">Loading businesses...</div>
-        )}
+        {isLoading && <div className="text-center text-gray-500 py-10">Loading businesses...</div>}
 
         {isError && (
           <div className="text-center text-red-500 py-10">
@@ -65,12 +67,11 @@ const HomePage: React.FC = () => {
         )}
 
         {!isLoading && !isError && businesses.length === 0 && (
-          <div className="text-center text-gray-400 py-10">
-            No businesses found.
-          </div>
+          <div className="text-center text-gray-400 py-10">No businesses found.</div>
         )}
 
-        {!isLoading && !isError &&
+        {!isLoading &&
+          !isError &&
           businesses.map((business) => (
             <div
               key={business.id}
@@ -81,9 +82,7 @@ const HomePage: React.FC = () => {
                 <h2 className="text-lg font-medium text-base-content">
                   {business?.attributes?.name}
                 </h2>
-                <p className="text-sm text-gray-500">
-                  {business?.attributes?.type?.label}
-                </p>
+                <p className="text-sm text-gray-500">{business?.attributes?.type?.label}</p>
               </div>
               <button
                 className="btn btn-sm btn-ghost ml-auto"
@@ -95,9 +94,8 @@ const HomePage: React.FC = () => {
                 <ArrowRight className="w-5 h-5" />
               </button>
             </div>
-          ))
-        }
-        
+          ))}
+
         {!isLoading && !isError && businesses.length > 0 && (
           <Pagination
             totalPages={totalPages}
@@ -120,9 +118,7 @@ const HomePage: React.FC = () => {
         onClose={() => setOpenCreateBusiness(false)}
         headerColor="blue"
       >
-        {openCreateBusiness && (
-          <AddBusinessForm onClose={() => setOpenCreateBusiness(false)} />
-        )}
+        {openCreateBusiness && <AddBusinessForm onClose={() => setOpenCreateBusiness(false)} />}
       </Modal>
     </Layout>
   );

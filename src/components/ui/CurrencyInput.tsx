@@ -1,5 +1,5 @@
-import { FC, InputHTMLAttributes, ReactNode, useEffect, useState } from "react";
-import { FieldError } from "react-hook-form";
+import { FC, InputHTMLAttributes, ReactNode, useEffect, useState } from 'react';
+import { FieldError } from 'react-hook-form';
 
 interface CurrencyInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -12,26 +12,26 @@ const CurrencyInput: FC<CurrencyInputProps> = ({
   label,
   icon,
   error,
-  className = "",
+  className = '',
   value,
   onChange,
   onBlur,
   ...props
 }) => {
   const hasError = !!error;
-  const [displayValue, setDisplayValue] = useState("");
+  const [displayValue, setDisplayValue] = useState('');
 
   useEffect(() => {
-    if (value !== undefined && value !== null && value !== "") {
+    if (value !== undefined && value !== null && value !== '') {
       setDisplayValue(formatDecimal(value.toString()));
     }
   }, [value]);
 
   const formatDecimal = (val: string) => {
-    const cleaned = val.replace(/[^0-9.]/g, "");
+    const cleaned = val.replace(/[^0-9.]/g, '');
     const number = parseFloat(cleaned);
 
-    if (isNaN(number)) return "";
+    if (isNaN(number)) return '';
 
     return number.toFixed(2);
   };
@@ -47,8 +47,8 @@ const CurrencyInput: FC<CurrencyInputProps> = ({
       <div
         className={`flex items-center rounded-lg px-3 py-2 transition-all duration-150 ${
           hasError
-            ? "border border-error focus-within:ring-2 focus-within:ring-error"
-            : "border border-gray-300 focus-within:ring-2 focus-within:ring-primary"
+            ? 'border border-error focus-within:ring-2 focus-within:ring-error'
+            : 'border border-gray-300 focus-within:ring-2 focus-within:ring-primary'
         } ${className}`}
       >
         {icon && <span className="mr-2 text-gray-400">{icon}</span>}
@@ -58,7 +58,7 @@ const CurrencyInput: FC<CurrencyInputProps> = ({
           {...props}
           value={displayValue}
           onChange={(e) => {
-            const inputValue = e.target.value.replace(/[^0-9.]/g, "");
+            const inputValue = e.target.value.replace(/[^0-9.]/g, '');
             onChange?.(e); // trigger react-hook-form event
             setDisplayValue(inputValue);
           }}
@@ -79,7 +79,7 @@ const CurrencyInput: FC<CurrencyInputProps> = ({
 
       {hasError && (
         <p className="text-error text-xs mt-1 px-1">
-          {typeof error === "string" ? error : error.message}
+          {typeof error === 'string' ? error : error.message}
         </p>
       )}
     </div>

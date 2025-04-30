@@ -1,4 +1,4 @@
-import { FC, TextareaHTMLAttributes } from "react";
+import { FC, TextareaHTMLAttributes } from 'react';
 
 interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -6,42 +6,42 @@ interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   legend?: string;
   optionalLabel?: string;
   optionalLabelColor?: string;
-  size?: "xs" | "sm" | "md" | "lg" | "xl";
-  color?: "primary" | "secondary" | "accent" | "neutral" | "info" | "success" | "warning" | "error";
-  width?: "full" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  color?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'info' | 'success' | 'warning' | 'error';
+  width?: 'full' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
   className?: string;
 }
 
-const TextArea: FC<TextAreaProps> = ({ 
-  label, 
-  fieldset = false, 
-  legend, 
-  optionalLabel, 
+const TextArea: FC<TextAreaProps> = ({
+  label,
+  fieldset = false,
+  legend,
+  optionalLabel,
   optionalLabelColor = '',
-  size, 
-  color, 
-  width = "full", 
-  className = "", 
-  ...props 
+  size,
+  color,
+  width = 'full',
+  className = '',
+  ...props
 }) => {
-  const sizeClass = size ? `textarea-${size}` : "";
-  const colorClass = color ? `textarea-${color}` : "";
-  
+  const sizeClass = size ? `textarea-${size}` : '';
+  const colorClass = color ? `textarea-${color}` : '';
+
   // Width mapping
   const widthClass = {
-    full: "w-full",
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-xl",
-    "2xl": "max-w-2xl",
-    "3xl": "max-w-3xl",
+    full: 'w-full',
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-3xl',
   }[width];
 
   const textareaElement = (
-    <textarea 
-      className={`textarea h-24 ${sizeClass} ${colorClass} ${widthClass} ${className}`} 
-      {...props} 
+    <textarea
+      className={`textarea h-24 ${sizeClass} ${colorClass} ${widthClass} ${className}`}
+      {...props}
     />
   );
 
@@ -50,7 +50,9 @@ const TextArea: FC<TextAreaProps> = ({
       <fieldset className="fieldset">
         {legend && <legend className="fieldset-legend">{legend}</legend>}
         {textareaElement}
-        {optionalLabel && <div className={`fieldset-label ${optionalLabelColor}`}>{optionalLabel}</div>}
+        {optionalLabel && (
+          <div className={`fieldset-label ${optionalLabelColor}`}>{optionalLabel}</div>
+        )}
       </fieldset>
     );
   }
