@@ -1,54 +1,76 @@
-import { BarChart2, FileText, ShoppingCart, DollarSign } from 'lucide-react';
 import Wrapper from 'components/Wrapper';
+import {
+  transformStatsStats,
+  transformProductCountPerBusiness,
+  transformProductCategoryCountPerBusiness,
+} from 'transformers/transformer';
+import {
+  useDashboardTotalsQuery,
+  useDashboardSalesStatsQuery,
+  useDashboardProductCountPerBusinessQuery,
+  useDashboardProductCategoryCountPerBusinessQuery,
+} from 'hooks/dashboard';
+import { IdParams } from 'types/businessProduct';
+import { StatCard, ChartCard } from 'components/ui/components';
 
 interface DashboardSectionProps {
-  businessId: string | undefined;
+  businessId?: IdParams;
 }
 
 const BDDashboardSection: React.FC<DashboardSectionProps> = ({ businessId }) => {
-  console.log(businessId);
+  const { data: totalsRes }: any = useDashboardTotalsQuery({});
+  const { data: salesStatsRes }: any = useDashboardSalesStatsQuery({
+    business_id: businessId,
+  });
+  const { data: productCountPerBusinessRes }: any = useDashboardProductCountPerBusinessQuery({
+    business_id: businessId,
+  });
+  const { data: productCategoryCountPerBusinessRes }: any =
+    useDashboardProductCategoryCountPerBusinessQuery({
+      business_id: businessId,
+    });
+
+  const stats = [
+    {
+      label: 'Total Products',
+      value: totalsRes?.data?.total_products || 0,
+      color: 'text-red-600',
+    },
+    {
+      label: 'Total Sales',
+      value: totalsRes?.data?.total_sales || 0,
+      color: 'text-violet-600',
+    },
+  ];
+
+  const salesStatsData = transformStatsStats(salesStatsRes?.data?.data || []);
+  const productCountPerBusinessData = transformProductCountPerBusiness(
+    productCountPerBusinessRes?.data?.data || [],
+  );
+  const productCategoryCountPerBusinessData = transformProductCategoryCountPerBusiness(
+    productCategoryCountPerBusinessRes?.data?.data || [],
+  );
+
   return (
     <Wrapper>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="card bg-base-100 shadow-md rounded-xl p-4">
-          <div className="flex items-center gap-4">
-            <ShoppingCart className="text-primary w-6 h-6" />
-            <div>
-              <p className="font-semibold">Sales Today</p>
-              <p className="text-sm text-neutral-content">₱0.00</p>
-            </div>
-          </div>
-        </div>
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-6">
+        {stats.map((stat, index) => (
+          <StatCard key={index} label={stat.label} value={stat.value} color={stat.color} />
+        ))}
+      </div>
 
-        <div className="card bg-base-100 shadow-md rounded-xl p-4">
-          <div className="flex items-center gap-4">
-            <FileText className="text-info w-6 h-6" />
-            <div>
-              <p className="font-semibold">Inventory Items</p>
-              <p className="text-sm text-neutral-content">0 items</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 shadow-md rounded-xl p-4">
-          <div className="flex items-center gap-4">
-            <DollarSign className="text-success w-6 h-6" />
-            <div>
-              <p className="font-semibold">Total Investments</p>
-              <p className="text-sm text-neutral-content">₱0.00</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="card bg-base-100 shadow-md rounded-xl p-4">
-          <div className="flex items-center gap-4">
-            <BarChart2 className="text-warning w-6 h-6" />
-            <div>
-              <p className="font-semibold">Profit/Loss (This Month)</p>
-              <p className="text-sm text-neutral-content">₱0.00</p>
-            </div>
-          </div>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ChartCard title="Sales" type="bar" data={salesStatsData} />
+        <ChartCard
+          title="Products per Business"
+          type="horizontalBar"
+          data={productCountPerBusinessData}
+        />
+        <ChartCard
+          title="Product Categories per Business"
+          type="horizontalBar"
+          data={productCategoryCountPerBusinessData}
+        />
       </div>
     </Wrapper>
   );
