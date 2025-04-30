@@ -60,7 +60,7 @@ const BDDashboardSection: React.FC<DashboardSectionProps> = ({ businessId }) => 
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ChartCard title="Sales" type="bar" data={salesStatsData} />
+        <ChartCard title="Sales per Business" type="bar" data={salesStatsData} />
         <ChartCard
           title="Products per Business"
           type="horizontalBar"
