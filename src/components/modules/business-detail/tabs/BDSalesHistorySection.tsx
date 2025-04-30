@@ -11,13 +11,21 @@ import { Pencil } from "lucide-react";
 import { useSalesStore } from "stores/useSalesStore";
 import Modal from "components/ui/Modal";
 import AddBusinessSalesForm from "../forms/AddBusinessSalesForm";
+import EditBusinessSalesForm from "../forms/EditBusinessSalesForm";
 
 interface SalesHistorySectionProps {
     businessId: string | undefined;
 }
 
 const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId }) => {
-    const { openCreateBusinessSales, setOpenCreateBusinessSales } = useSalesStore()
+    const { 
+        openCreateBusinessSales, 
+        setOpenCreateBusinessSales,
+        openEditBusinessSales,
+        setOpenEditBusinessSales,
+        selectedSalesId,
+        setSelectedSalesId
+    } = useSalesStore()
     const [search, setSearch] = useState("")
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(25);
@@ -32,6 +40,11 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
     const list = response?.data?.data || []; 
     const totalItems = response?.data?.meta?.pagination?.total || 0; 
     const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const onViewSalesItemHandler = (salesId: string) => {
+        setSelectedSalesId(salesId)
+        setOpenEditBusinessSales(true)
+    }
     
     return (
         <Wrapper>
@@ -81,12 +94,15 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
                             <td className="font-medium">{item?.attributes?.quantity || 0}</td>
                             <td className="font-medium">{formatCurrency(item?.attributes?.total_amount || 0)}</td>
                             <td className="font-medium">{item?.attributes?.customer_name}</td>
-                            <td className="font-medium">{item?.attributes?.remarks}</td>
+                            <td className="font-medium max-w-[200px] truncate whitespace-nowrap overflow-hidden">
+                            {item?.attributes?.remarks}
+                            </td>
                             <td>
                                 <Button
                                     variant="ghost"
                                     className="btn-sm text-orange-500 hover:bg-orange-100"
                                     tooltip="Edit"
+                                    onClick={() => onViewSalesItemHandler(item.id)}
                                 >
                                     <Pencil className="w-4 h-4" />
                                 </Button>
@@ -120,6 +136,24 @@ const BDSalesHistorySection: React.FC<SalesHistorySectionProps> = ({ businessId 
                 <AddBusinessSalesForm 
                     businessId={businessId}
                     onClose={() => setOpenCreateBusinessSales(false)} 
+                />
+            )}
+            </Modal>
+
+            <Modal
+                id="edit-business-sales-modal"
+                title="Edit Sales"
+                closeOnBackdrop
+                isOpen={openEditBusinessSales}
+                size="md"
+                onClose={() => setOpenEditBusinessSales(false)}
+                headerColor="blue"
+            >
+            {openEditBusinessSales && (
+                <EditBusinessSalesForm 
+                    businessId={businessId}
+                    salesId={selectedSalesId}
+                    onClose={() => setOpenEditBusinessSales(false)} 
                 />
             )}
             </Modal>

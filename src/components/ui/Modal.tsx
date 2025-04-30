@@ -49,15 +49,6 @@ const Modal: React.FC<ModalProps> = ({
     }
   }, [isOpen]);
 
-  // Close on ESC
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && onClose) onClose();
-    };
-    window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [onClose]);
-
   // Close on backdrop
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
