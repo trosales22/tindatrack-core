@@ -17,7 +17,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0, withBorder = true }
   return (
     <div className="flex flex-col h-full min-h-0">
       {/* Tab headers with horizontal scroll on mobile */}
-      <div className="flex overflow-x-auto border-b border-gray-300 no-scrollbar space-x-4 px-2">
+      <div className="flex shrink-0 overflow-x-auto border-b border-gray-300 no-scrollbar space-x-4 px-2">
         {tabs.map((tab, idx) => (
           <div
             key={idx}

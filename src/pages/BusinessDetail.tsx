@@ -59,7 +59,7 @@ const BusinessDetailPage: React.FC = () => {
 
       <BusinessCard businessId={id} businessDetail={businessDetail} />
 
-      <div className="mt-5 h-screen">
+      <div className="flex flex-col h-full">
         <Tabs tabs={tabData} defaultIndex={0} withBorder={false} />
       </div>
     </Layout>

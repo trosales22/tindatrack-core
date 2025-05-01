@@ -99,13 +99,13 @@ const Layout = ({ children }: LayoutProps) => {
         sidebarItems={sidebarMenuItems}
       />
 
-      <div className="flex flex-col md:flex-row md:overflow-hidden max-w-full overflow-x-hidden">
+      <div className="flex flex-col md:flex-row h-screen overflow-hidden max-w-full">
         <Sidebar
           bgColor="bg-[#0B1F3A]"
           items={sidebarMenuItems}
           sidebarProps="text-white hover:bg-white/10 hover:text-white"
         />
-        <div className="flex-1 p-6 mt-2 pt-18 ml-0 md:ml-72 transition-all duration-300 max-w-full">
+        <div className="flex-1 overflow-y-auto p-6 pt-18 ml-0 md:ml-72 transition-all duration-300">
           {children}
         </div>
       </div>
